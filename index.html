@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Philippine Property Value & Closing Fee Underwriter</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #1B3A5C;
+      --navy-deep: #122840;
+      --warm-white: #F8F7F4;
+      --panel: #FFFFFF;
+      --slate-blue: #4A6FA5;
+      --slate-soft: #D9E2EC;
+      --gold: #C9A15D;
+      --gold-deep: #A8813E;
+      --gold-bg: rgba(201, 161, 93, 0.12);
+      --charcoal: #2D2D2D;
+      --charcoal-soft: #5A5A5A;
+      --border-line: #E2E8F0;
+      --accent-warn: #DC2626;
+      --accent-ok: #15803D;
+      --focus-ring: rgba(201, 161, 93, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+      background-color: var(--warm-white);
+      color: var(--charcoal);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: clamp(14px, 3vw, 36px) clamp(12px, 3vw, 24px);
+    }
+
+    .app-wrap {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    header.hero {
+      text-align: center;
+      margin-bottom: clamp(16px, 3vw, 28px);
+      padding: clamp(18px, 3vw, 24px);
+      background: var(--navy);
+      color: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(27, 58, 92, 0.12);
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(0.72rem, 1.8vw, 0.82rem);
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.6rem, 3.8vw, 2.3rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+    }
+    p.subtitle {
+      color: #D9E2EC;
+      font-size: clamp(0.88rem, 2vw, 0.98rem);
+      margin-top: 6px;
+      font-weight: 300;
+    }
+
+    /* TOOLTIP SYSTEM */
+    .tip-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      cursor: help;
+      vertical-align: middle;
+    }
+    .tip-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--slate-soft);
+      color: var(--navy);
+      font-size: 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      margin-left: 5px;
+      transition: all 0.15s ease;
+    }
+    .tip-wrap:hover .tip-icon,
+    .tip-wrap:focus-within .tip-icon {
+      background: var(--gold);
+      color: #FFFFFF;
+    }
+    .tip-bubble {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: var(--navy);
+      color: #FFFFFF;
+      border: 1px solid var(--slate-blue);
+      font-size: 0.76rem;
+      font-weight: 400;
+      line-height: 1.4;
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(27, 58, 92, 0.25);
+      width: max-content;
+      max-width: 270px;
+      z-index: 50;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+    .tip-bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--navy);
+    }
+    .tip-wrap:hover .tip-bubble,
+    .tip-wrap:focus-within .tip-bubble {
+      visibility: visible;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* PROGRESS BAR */
+    .progress-bar-wrap {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto clamp(16px, 3vw, 28px);
+    }
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--charcoal-soft);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .progress-track {
+      width: 100%;
+      height: 7px;
+      background: #E2E8F0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* WIZARD QUESTION CARDS */
+    .wizard-card {
+      position: relative;
+      background: var(--panel);
+      border: 1.5px solid var(--border-line);
+      border-radius: clamp(14px, 2.5vw, 20px);
+      padding: clamp(20px, 4.5vw, 40px);
+      box-shadow: 0 10px 30px rgba(27, 58, 92, 0.06);
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      animation: fadeIn 0.25s ease-out;
+    }
+    .wizard-card.active { display: flex; }
+
+    /* WATERMARK BACKGROUND TREATMENTS */
+    .wizard-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background-repeat: no-repeat;
+      background-position: right 10px bottom 10px;
+      background-size: 160px;
+      opacity: 0.045;
+      pointer-events: none;
+    }
+    .wizard-card[data-step="1"]::before {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.5L18 11v7h-2v-6H8v6H6v-7l6-5.5z"/></svg>');
+    }
+    .wizard-card[data-step="2"]::before {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M19 2H5c-1.1 0-2 .9-2 2v18l4-4h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6.83L5 17.83V4h14v12z"/></svg>');
+    }
+    .wizard-card[data-step="3"]::before {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm9.5-20L2 6v2h19V6l-9.5-4z"/></svg>');
+    }
+    .wizard-card[data-step="4"]::before {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>');
+    }
+    .wizard-card[data-step="5"]::before {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>');
+    }
+    .wizard-card[data-step="6"]::before {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>');
+    }
+    .wizard-card[data-step="7"]::before {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>');
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .q-step-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--gold-deep);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .q-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.3rem, 3.2vw, 1.75rem);
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+    .q-desc {
+      color: var(--charcoal-soft);
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      line-height: 1.5;
+      margin-bottom: clamp(18px, 3.5vw, 26px);
+    }
+
+    .input-wrap {
+      position: relative;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+    .input-wrap span.prefix, .input-wrap span.suffix {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--charcoal-soft);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      pointer-events: none;
+    }
+    .input-wrap span.prefix { left: 16px; }
+    .input-wrap span.suffix { right: 16px; }
+
+    .wizard-input {
+      width: 100%;
+      padding: clamp(12px, 2.8vw, 16px) clamp(14px, 2.8vw, 18px);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(1.1rem, 2.8vw, 1.45rem);
+      font-weight: 600;
+      color: var(--charcoal);
+      background: #FFFFFF;
+      border: 2px solid var(--border-line);
+      border-radius: 10px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .input-wrap.has-prefix .wizard-input { padding-left: clamp(36px, 5.5vw, 44px); }
+    .input-wrap.has-suffix .wizard-input { padding-right: clamp(44px, 7vw, 56px); }
+
+    .wizard-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px var(--focus-ring);
+    }
+
+    .wizard-select {
+      width: 100%;
+      padding: clamp(12px, 2.8vw, 16px) 14px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+      font-weight: 600;
+      color: var(--charcoal);
+      background: #FFFFFF;
+      border: 2px solid var(--border-line);
+      border-radius: 10px;
+      outline: none;
+      cursor: pointer;
+    }
+    .wizard-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px var(--focus-ring);
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .option-btn {
+      background: #FFFFFF;
+      border: 2px solid var(--border-line);
+      color: var(--charcoal);
+      padding: clamp(12px, 2.5vw, 16px) 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.15s ease;
+    }
+    .option-btn:hover { border-color: var(--slate-blue); }
+    .option-btn.selected {
+      border-color: var(--gold);
+      background: var(--gold-bg);
+      color: var(--navy);
+    }
+
+    /* MULTI-SELECT CHECKLIST GRID (STEP 8) WITH NON-TRANSPARENT FILL & CLEAR LATERAL BORDERS */
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      max-height: 420px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+    }
+    .check-card {
+      position: relative;
+      border: 1.5px solid var(--border-line);
+      border-left: 4px solid var(--slate-blue);
+      border-right: 1.5px solid var(--border-line);
+      background-color: #FFFFFF !important;
+      border-radius: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.2s ease, background 0.2s ease;
+      user-select: none;
+      transform-origin: center center;
+    }
+    .check-card:hover {
+      border-color: var(--gold);
+      border-left-color: var(--gold-deep);
+      transform: scale(1.2);
+      box-shadow: 0 14px 30px rgba(27, 58, 92, 0.22);
+      z-index: 20;
+    }
+    .check-card.checked {
+      border-color: var(--gold);
+      border-left-color: var(--gold-deep);
+      background-color: #FAF3E7 !important;
+    }
+    .check-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 2px solid var(--slate-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-size: 11px;
+      color: transparent;
+      font-weight: 700;
+      background: #FFFFFF;
+      transition: all 0.15s ease;
+    }
+    .check-card.checked .check-indicator {
+      background: var(--gold);
+      border-color: var(--gold-deep);
+      color: #FFFFFF;
+    }
+    .check-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+    .check-sub {
+      font-size: 0.72rem;
+      color: var(--charcoal-soft);
+      line-height: 1.35;
+      margin-top: 3px;
+    }
+
+    .validation-msg {
+      font-size: 0.8rem;
+      color: var(--accent-warn);
+      margin-top: -8px;
+      margin-bottom: 14px;
+      display: none;
+      font-weight: 500;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    button.nav-btn {
+      flex: 1;
+      padding: clamp(12px, 2.5vw, 15px) 16px;
+      border-radius: 10px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: clamp(0.88rem, 1.8vw, 1rem);
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .btn-next { background: var(--gold); color: #FFFFFF; }
+    .btn-next:hover { background: var(--gold-deep); }
+    .btn-prev { background: #FFFFFF; border: 1.5px solid var(--border-line) !important; color: var(--charcoal-soft); flex: 0.55; }
+    .btn-prev:hover { background: var(--slate-soft); color: var(--navy); }
+    .btn-skip { background: transparent; color: var(--slate-blue); border: 1.5px dashed var(--slate-blue) !important; }
+    .btn-skip:hover { background: rgba(74, 111, 165, 0.08); }
+
+    /* RESULTS SCREEN */
+    #resultsScreen {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      animation: fadeIn 0.3s ease-out;
+    }
+    #resultsScreen.active { display: flex; }
+
+    .edit-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--border-line);
+      border-radius: 12px;
+      padding: 12px 18px;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 4px 12px rgba(27, 58, 92, 0.04);
+    }
+    .edit-bar-info { font-size: 0.85rem; color: var(--charcoal-soft); }
+    .edit-bar-info strong { color: var(--navy); }
+
+    .btn-edit-inputs {
+      padding: 7px 14px;
+      background: var(--warm-white);
+      border: 1.5px solid var(--border-line);
+      border-radius: 8px;
+      color: var(--slate-blue);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-edit-inputs:hover { border-color: var(--slate-blue); background: #FFFFFF; }
+
+    /* PH PROPERTY ANALYSIS CARD */
+    .ai-card {
+      background: var(--panel);
+      border: 1.5px solid var(--gold);
+      border-radius: 14px;
+      padding: clamp(16px, 3.5vw, 26px);
+      box-shadow: 0 6px 20px rgba(201, 161, 93, 0.1);
+    }
+    .ai-pill {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      background: var(--navy);
+      color: #FFFFFF;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 14px;
+      letter-spacing: 0.05em;
+    }
+    .ai-lead {
+      font-size: clamp(0.92rem, 2vw, 1.02rem);
+      line-height: 1.7;
+      color: var(--charcoal);
+    }
+    .ai-lead p { margin-bottom: 14px; }
+    .ai-lead p:last-child { margin-bottom: 0; }
+    .ai-lead strong { color: var(--navy); font-weight: 700; }
+
+    .stats-matrix {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+    }
+    .stat-tile {
+      background: var(--panel);
+      border: 1px solid var(--border-line);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(27, 58, 92, 0.03);
+    }
+    .stat-tile.featured { border-color: var(--gold); background: var(--gold-bg); }
+    .stat-tile.warn { border-color: var(--accent-warn); background: rgba(220, 38, 38, 0.05); }
+    .stat-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--charcoal-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .stat-val {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.25rem, 2.8vw, 1.6rem);
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .stat-sub { font-size: 0.75rem; color: var(--charcoal-soft); margin-top: 4px; }
+
+    .card-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border-line);
+      padding-bottom: 8px;
+      color: var(--navy);
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(0.78rem, 1.8vw, 0.88rem);
+    }
+    table.data-table th {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-line);
+      color: var(--charcoal-soft);
+      font-weight: 600;
+    }
+    table.data-table td {
+      padding: 10px;
+      border-bottom: 1px solid var(--border-line);
+    }
+    table.data-table td.num {
+      text-align: right;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .table-totals {
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+      margin-top: 14px;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+    .table-totals strong {
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--navy);
+    }
+
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .btn-action {
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      transition: all 0.15s ease;
+    }
+    .btn-action.primary { background: var(--gold); color: #FFFFFF; }
+    .btn-action.primary:hover { background: var(--gold-deep); }
+    .btn-action.secondary { background: #FFFFFF; border: 1.5px solid var(--slate-blue); color: var(--slate-blue); }
+    .btn-action.secondary:hover { background: rgba(74, 111, 165, 0.08); }
+
+    @page { size: A4 portrait; margin: 12mm; }
+    @media print {
+      body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+      .progress-bar-wrap, .edit-bar, .actions-grid, header.hero p, .tip-wrap { display: none !important; }
+      header.hero { background: #fff !important; color: #000 !important; border: 1px solid #ccc; box-shadow: none !important; }
+      header.hero h1 { color: #000 !important; }
+      .wizard-card { display: none !important; }
+      #resultsScreen { display: flex !important; }
+      .ai-card, .stat-tile, table.data-table { border: 1px solid #ccc !important; box-shadow: none !important; }
+      .ai-card { background: #fafafa !important; }
+      .stat-tile.featured { background: #fdfaf0 !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-wrap">
+  <header class="hero">
+    <p class="eyebrow">PROPERTY VALUATION AND ANALYSIS</p>
+    <h1>Philippine Property Calculator</h1>
+    <p class="subtitle">You supply the figures, we'll provide the breakdown.</p>
+  </header>
+
+  <div class="progress-bar-wrap" id="progressWrap">
+    <div class="progress-labels">
+      <span id="stepCounter">Step 1 of 8</span>
+      <span id="stepPercent">12%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div id="wizardContainer">
+
+    <!-- STEP 1: Total Contract Price -->
+    <div class="wizard-card active" data-step="1">
+      <div class="q-step-tag">Step 1 &bull; Required</div>
+      <div class="q-title">How much is the property?</div>
+      <div class="q-desc">Enter the Total Contract Price (TCP) indicated in the deed of absolute sale or developer contract.</div>
+      <div class="input-wrap has-prefix">
+        <span class="prefix">₱</span>
+        <input type="text" inputmode="decimal" class="wizard-input money-input" id="inp_tcp" placeholder="e.g. 8,500,000" autofocus>
+      </div>
+      <div class="validation-msg" id="val_tcp">Please enter a valid purchase price greater than zero.</div>
+      <div class="btn-row">
+        <button type="button" class="nav-btn btn-next" onclick="nextStep(1)">Continue &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Asset Class, Area Dimensions & Dues -->
+    <div class="wizard-card" data-step="2">
+      <div class="q-step-tag">Step 2 &bull; Required</div>
+      <div class="q-title">What type of property is this &amp; what are its dimensions?</div>
+      <div class="q-desc">Governs BIR ordinary vs. capital asset treatment, floor/lot area metrics, and recurring HOA association dues.</div>
+      
+      <div class="option-grid" id="opt_assetKind" style="grid-template-columns: 1fr 1fr;">
+        <div class="option-btn selected" data-val="condo">Condominium Unit</div>
+        <div class="option-btn" data-val="house_lot">House &amp; Lot</div>
+        <div class="option-btn" data-val="commercial">Commercial / Apartment Bldg</div>
+        <div class="option-btn" data-val="lot">Vacant Residential Lot</div>
+      </div>
+
+      <!-- Dynamic Area Dimension Fields -->
+      <div id="areaFieldsContainer" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:12px;">
+        <div id="floorAreaWrap">
+          <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;">
+            FLOOR AREA
+            <span class="tip-wrap">
+              <span class="tip-icon">?</span>
+              <span class="tip-bubble">Livables / gross internal floor area in square meters.</span>
+            </span>
+          </label>
+          <div class="input-wrap has-suffix">
+            <input type="number" class="wizard-input" id="inp_floorArea" placeholder="e.g. 45" min="1" step="0.5">
+            <span class="suffix">sqm</span>
+          </div>
+        </div>
+        <div id="lotAreaWrap" style="display:none;">
+          <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;">
+            LOT AREA
+            <span class="tip-wrap">
+              <span class="tip-icon">?</span>
+              <span class="tip-bubble">Total parcel land area in square meters.</span>
+            </span>
+          </label>
+          <div class="input-wrap has-suffix">
+            <input type="number" class="wizard-input" id="inp_lotArea" placeholder="e.g. 120" min="1" step="1">
+            <span class="suffix">sqm</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:4px;">
+        <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;">
+          MONTHLY HOA / CONDO ASSOCIATION DUES (₱)
+          <span class="tip-wrap">
+            <span class="tip-icon">?</span>
+            <span class="tip-bubble">Recurring common area maintenance dues charged monthly (typically ₱75–₱120/sqm for condos). Enter 0 if none.</span>
+          </span>
+        </label>
+        <div class="input-wrap has-prefix">
+          <span class="prefix">₱</span>
+          <input type="text" inputmode="decimal" class="wizard-input money-input" id="inp_hoa" placeholder="e.g. 4,500">
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:20px;">
+        <button type="button" class="nav-btn btn-prev" onclick="prevStep(2)">&larr; Back</button>
+        <button type="button" class="nav-btn btn-next" onclick="nextStep(2)">Continue &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Payment Method, Terms & Insurance -->
+    <div class="wizard-card" data-step="3">
+      <div class="q-step-tag">Step 3 &bull; Required</div>
+      <div class="q-title">How will you finance the acquisition?</div>
+      <div class="q-desc">Financed acquisitions require mandatory Mortgage Redemption Insurance (MRI) and Fire Insurance.</div>
+
+      <div class="option-grid" id="opt_financing" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="option-btn selected" data-val="bank">Commercial Bank</div>
+        <div class="option-btn" data-val="pagibig">Pag-IBIG Fund</div>
+        <div class="option-btn" data-val="cash">Cash (No Loan)</div>
+      </div>
+
+      <div id="financingSubPanel">
+        <div style="margin-top: 14px;">
+          <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;" id="dpLabel">
+            DOWNPAYMENT PERCENTAGE (MIN 20% FOR BANKS)
+            <span class="tip-wrap">
+              <span class="tip-icon">?</span>
+              <span class="tip-bubble">Commercial banks require at least 20% cash equity; Pag-IBIG allows downpayments as low as 10% on residential lots and homes.</span>
+            </span>
+          </label>
+          <div class="input-wrap has-suffix">
+            <input type="number" class="wizard-input" id="inp_dpPct" value="20" min="20" max="95" step="1">
+            <span class="suffix">%</span>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+          <div>
+            <label style="font-size:0.75rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;" id="termLabel">
+              LOAN TERM (MAX 20 YRS)
+            </label>
+            <div class="input-wrap has-suffix">
+              <input type="number" class="wizard-input" id="inp_term" value="20" min="1" max="20">
+              <span class="suffix">yrs</span>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:0.75rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;">
+              ANNUAL INTEREST RATE
+            </label>
+            <div class="input-wrap has-suffix">
+              <input type="number" class="wizard-input" id="inp_rate" value="6.25" min="1" max="25" step="0.05">
+              <span class="suffix">%/yr</span>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.72rem; color:var(--charcoal-soft); margin-top:4px;" id="rateBenchmarkNote">
+          &bull; Defaulted to 6.25% (HDMF Pag-IBIG 3-Year Fixed Benchmark Rate for 2026).
+        </p>
+      </div>
+
+      <div class="validation-msg" id="val_step3">Please verify downpayment and term constraints.</div>
+
+      <div class="btn-row" style="margin-top:20px;">
+        <button type="button" class="nav-btn btn-prev" onclick="prevStep(3)">&larr; Back</button>
+        <button type="button" class="nav-btn btn-next" onclick="nextStep(3)">Continue &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Income & Existing Debt Obligations -->
+    <div class="wizard-card" data-step="4">
+      <div class="q-step-tag">Step 4 &bull; Required for Debt Financing</div>
+      <div class="q-title">What is your monthly household income &amp; existing debt?</div>
+      <div class="q-desc">
+        Used to calculate your <strong>Debt-to-Income (DTI) ratio</strong> — the percentage of gross monthly earnings consumed by debt service.
+      </div>
+
+      <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;">
+        MONTHLY GROSS HOUSEHOLD INCOME (₱)
+        <span class="tip-wrap">
+          <span class="tip-icon">?</span>
+          <span class="tip-bubble">Total combined gross earnings of borrowers before taxes. Used as the denominator for Debt-to-Income (DTI).</span>
+        </span>
+      </label>
+      <div class="input-wrap has-prefix">
+        <span class="prefix">₱</span>
+        <input type="text" inputmode="decimal" class="wizard-input money-input" id="inp_income" placeholder="e.g. 180,000">
+      </div>
+      <div class="validation-msg" id="val_income">Household income is required to calculate Debt-to-Income (DTI) qualification ratios.</div>
+
+      <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;">
+        EXISTING NON-MORTGAGE MONTHLY DEBTS (₱)
+        <span class="tip-wrap">
+          <span class="tip-icon">?</span>
+          <span class="tip-bubble">Monthly payments for car loans, personal loans, and credit card installments. Used by banks to compute your Back-End Debt-to-Income (DTI) ratio. Enter 0 if debt-free.</span>
+        </span>
+      </label>
+      <div class="input-wrap has-prefix">
+        <span class="prefix">₱</span>
+        <input type="text" inputmode="decimal" class="wizard-input money-input" id="inp_existingDebt" placeholder="e.g. 15,000">
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="nav-btn btn-prev" onclick="prevStep(4)">&larr; Back</button>
+        <button type="button" class="nav-btn btn-next" onclick="nextStep(4)">Continue &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: Location & Seller Classification -->
+    <div class="wizard-card" data-step="5">
+      <div class="q-step-tag">Step 5 &bull; Required</div>
+      <div class="q-title">Where is the property located and who is selling?</div>
+      <div class="q-desc">Governs LGU transfer tax rates (0.75% NCR vs. 0.50% Province) and corporate seller 12% VAT thresholds.</div>
+
+      <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:6px; display:block;">PROPERTY LOCATION / LGU REGION</label>
+      <div class="option-grid" id="opt_region">
+        <div class="option-btn selected" data-val="ncr">Metro Manila (NCR)</div>
+        <div class="option-btn" data-val="prov">Province</div>
+      </div>
+
+      <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:6px; display:block;">SELLER CLASSIFICATION</label>
+      <select class="wizard-select" id="inp_sellerType" style="margin-bottom:14px;">
+        <option value="Individual">Individual (Standard Resale / Capital Asset)</option>
+        <option value="Developer/Corporation">Developer / Corporation (Ordinary Asset)</option>
+      </select>
+
+      <div class="btn-row">
+        <button type="button" class="nav-btn btn-prev" onclick="prevStep(5)">&larr; Back</button>
+        <button type="button" class="nav-btn btn-next" onclick="nextStep(5)">Continue &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: BIR Zonal Value (OPTIONAL) -->
+    <div class="wizard-card" data-step="6">
+      <div class="q-step-tag">Step 6 &bull; Optional</div>
+      <div class="q-title">What is the BIR Zonal Value?</div>
+      <div class="q-desc">
+        The BIR assesses statutory transfer taxes on whichever is higher: Contract Price or official Zonal Value. Skip if unknown.
+        <br><br>
+        <a href="https://www.bir.gov.ph/zonal-values" target="_blank" rel="noopener" style="color:var(--slate-blue); text-decoration:underline; font-weight:600;">
+          Look up official BIR Zonal Values here &nearr;
+        </a>
+      </div>
+
+      <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;">TOTAL BIR ZONAL VALUE (₱)</label>
+      <div class="input-wrap has-prefix">
+        <span class="prefix">₱</span>
+        <input type="text" inputmode="decimal" class="wizard-input money-input" id="inp_zonal" placeholder="Leave blank to default to TCP">
+      </div>
+
+      <div class="btn-row" style="margin-top:20px;">
+        <button type="button" class="nav-btn btn-prev" onclick="prevStep(6)">&larr; Back</button>
+        <button type="button" class="nav-btn btn-skip" onclick="skipStep(6)">Skip</button>
+        <button type="button" class="nav-btn btn-next" onclick="nextStep(6)">Continue &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 7: Rental Usage & Resale Target Strategy -->
+    <div class="wizard-card" data-step="7">
+      <div class="q-step-tag">Step 7 &bull; Optional</div>
+      <div class="q-title">Will this be leased out, and what is your exit strategy?</div>
+      <div class="q-desc">Provides expected rental metrics and holding timeframe projections.</div>
+
+      <div class="option-grid" id="opt_rentalChoice" style="grid-template-columns: 1fr 1fr;">
+        <div class="option-btn selected" data-val="yes">Yes, as a Rental Property</div>
+        <div class="option-btn" data-val="no">No, Personal / Family Use</div>
+      </div>
+
+      <div id="rentalSubContainer" style="margin-top: 14px;">
+        <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:6px; display:block;">EXPECTED MONTHLY RENT (₱)</label>
+        <div class="input-wrap has-prefix">
+          <span class="prefix">₱</span>
+          <input type="text" inputmode="decimal" class="wizard-input money-input" id="inp_rent" placeholder="e.g. 45,000">
+        </div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label style="font-size:0.78rem; color:var(--charcoal-soft); margin-bottom:6px; display:block;">EXIT / RESALE STRATEGY</label>
+        <div class="option-grid" id="opt_exitStrategy" style="grid-template-columns: 1fr 1fr;">
+          <div class="option-btn selected" data-val="plan_exit">Plan to Sell / Exit</div>
+          <div class="option-btn" data-val="no_exit">No Plans to Sell (Hold Perpetually)</div>
+        </div>
+      </div>
+
+      <div id="exitSubContainer" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+        <div>
+          <label style="font-size:0.75rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;">
+            TARGET EXIT HORIZON (MAX 30 YRS)
+            <span class="tip-wrap">
+              <span class="tip-icon">?</span>
+              <span class="tip-bubble">Estimated holding period before selling or liquidating (capped at 30 years).</span>
+            </span>
+          </label>
+          <div class="input-wrap has-suffix">
+            <input type="number" class="wizard-input" id="inp_holdingYrs" value="10" min="1" max="30">
+            <span class="suffix">yrs</span>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:0.75rem; color:var(--charcoal-soft); margin-bottom:5px; display:block;">
+            ANNUAL APPRECIATION
+            <span class="tip-wrap">
+              <span class="tip-icon">?</span>
+              <span class="tip-bubble">Expected compounding annual market value growth (historically ~3–6% in prime Philippine hubs).</span>
+            </span>
+          </label>
+          <div class="input-wrap has-suffix">
+            <input type="number" class="wizard-input" id="inp_appreciation" value="4.5" min="0" max="15" step="0.5">
+            <span class="suffix">%/yr</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:20px;">
+        <button type="button" class="nav-btn btn-prev" onclick="prevStep(7)">&larr; Back</button>
+        <button type="button" class="nav-btn btn-skip" onclick="finishWizard()">Skip &amp; Finish</button>
+        <button type="button" class="nav-btn btn-next" onclick="nextStep(7)">Continue &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 8: INTERACTIVE ANALYSIS SELECTOR (FILTERED, RENUMBERED 1-9 & ZOOM HOVER) -->
+    <div class="wizard-card" data-step="8">
+      <div class="q-step-tag">Step 8 &bull; Analysis Customization</div>
+      <div class="q-title">What analysis do you want to see?</div>
+      <div class="q-desc">Click to select the specific metrics, stress tests, and comparisons you want featured in your PH Property Analysis. Multiple can be clicked.</div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span style="font-size:0.78rem; font-weight:600; color:var(--navy);">AVAILABLE MODULES</span>
+        <div>
+          <button type="button" style="background:none; border:none; color:var(--slate-blue); font-size:0.75rem; font-weight:600; cursor:pointer; text-decoration:underline; margin-right:10px;" onclick="toggleAllAnalysis(true)">Select All</button>
+          <button type="button" style="background:none; border:none; color:var(--charcoal-soft); font-size:0.75rem; cursor:pointer; text-decoration:underline;" onclick="toggleAllAnalysis(false)">Clear All</button>
+        </div>
+      </div>
+
+      <div class="checklist-grid" id="analysisChecklist">
+        <!-- 1 -->
+        <div class="check-card" data-key="yield">
+          <div class="check-indicator">&check;</div>
+          <div>
+            <div class="check-title">1. Gross &amp; Net Rental Yield</div>
+            <div class="check-sub">Annual rent ÷ TCP; net yield after subtracting dues, insurance, and realistic vacancy allowance.</div>
+          </div>
+        </div>
+        <!-- 2 -->
+        <div class="check-card" data-key="achievable_rent">
+          <div class="check-indicator">&check;</div>
+          <div>
+            <div class="check-title">2. Realistic Achievable Rent</div>
+            <div class="check-sub">Cross-checked signed comps benchmark against broker list asking figures.</div>
+          </div>
+        </div>
+        <!-- 3 -->
+        <div class="check-card" data-key="buy_vs_rent">
+          <div class="check-indicator">&check;</div>
+          <div>
+            <div class="check-title">3. Buy vs. Rent Breakeven Period</div>
+            <div class="check-sub">Years of rent saved to offset downpayment, closing taxes, and capital opportunity cost.</div>
+          </div>
+        </div>
+        <!-- 4 -->
+        <div class="check-card" data-key="cash_on_cash">
+          <div class="check-indicator">&check;</div>
+          <div>
+            <div class="check-title">4. Cash-on-Cash Return</div>
+            <div class="check-sub">Actual net cash flow generated relative to your actual day-one cash outlay.</div>
+          </div>
+        </div>
+        <!-- 5 (formerly 6) -->
+        <div class="check-card" data-key="vacancy_carrying">
+          <div class="check-indicator">&check;</div>
+          <div>
+            <div class="check-title">5. Carrying Cost During Vacancy</div>
+            <div class="check-sub">Months of vacancy the property can absorb before turning out-of-pocket cash-negative.</div>
+          </div>
+        </div>
+        <!-- 6 (formerly 7) -->
+        <div class="check-card" data-key="tco">
+          <div class="check-indicator">&check;</div>
+          <div>
+            <div class="check-title">6. Total Cost of Ownership (TCO)</div>
+            <div class="check-sub">The full holding commitment: mortgage interest + dues + insurance + maintenance reserve.</div>
+          </div>
+        </div>
+        <!-- 7 (formerly 10) -->
+        <div class="check-card" data-key="downside_pivot">
+          <div class="check-indicator">&check;</div>
+          <div>
+            <div class="check-title">7. Alternative-Use &amp; Downside Pivot</div>
+            <div class="check-sub">Downside protection if long-term rent stalls: Airbnb suitability, end-user resale, or personal use.</div>
+          </div>
+        </div>
+        <!-- 8 (formerly 11) -->
+        <div class="check-card" data-key="financing_sens">
+          <div class="check-indicator">&check;</div>
+          <div>
+            <div class="check-title">8. Financing Cost Sensitivity</div>
+            <div class="check-sub">Stress-testing monthly debt service if bank repricing shifts by &plusmn;1% or &plusmn;2%.</div>
+          </div>
+        </div>
+        <!-- 9 (formerly 12) -->
+        <div class="check-card" data-key="real_return">
+          <div class="check-indicator">&check;</div>
+          <div>
+            <div class="check-title">9. Inflation-Adjusted (Real) Return</div>
+            <div class="check-sub">Net yield and capital appreciation adjusted against 3–5% Philippine headline inflation.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="nav-btn btn-prev" onclick="prevStep(8)">&larr; Back</button>
+        <button type="button" class="nav-btn btn-next" onclick="finishWizard()">Generate Analysis &rarr;</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FINAL UNDERWRITING MEMO DASHBOARD -->
+  <div id="resultsScreen">
+    
+    <div class="edit-bar">
+      <div class="edit-bar-info">
+        Valuation Underwriting for <strong id="res_tcp_badge">₱0</strong> acquisition (<span id="res_mode_badge">Bank Loan</span>).
+      </div>
+      <button type="button" class="btn-edit-inputs" onclick="editInputs()">
+        <span>✎</span> Edit Inputs
+      </button>
+    </div>
+
+    <!-- PRIMARY EMBEDDED PH PROPERTY ANALYSIS CARD -->
+    <div class="ai-card">
+      <span class="ai-pill">✦ PH PROPERTY ANALYSIS</span>
+      <div class="ai-lead" id="aiConversationalLead">
+        <!-- Rendered based on user's exact checklist selections -->
+      </div>
+      <div id="dynamicMetricStrip" style="display:flex; gap:20px; margin-top:16px; border-top:1px dashed var(--border-line); padding-top:14px; flex-wrap:wrap;">
+        <!-- Dynamic Strip Metrics inserted here -->
+      </div>
+    </div>
+
+    <!-- Primary Deal & Day-One Settlement Matrix -->
+    <div class="stats-matrix">
+      <div class="stat-tile" id="tile_loan">
+        <div class="stat-label">
+          Financed Loan Amount
+          <span class="tip-wrap">
+            <span class="tip-icon">?</span>
+            <span class="tip-bubble">Total mortgage takeout principal, net of your downpayment.</span>
+          </span>
+        </div>
+        <div class="stat-val" id="res_loan">₱0</div>
+        <div class="stat-sub" id="res_ltv_sub">LTV: 80.0%</div>
+      </div>
+      <div class="stat-tile" id="tile_amort">
+        <div class="stat-label">
+          True Debt Service (P&amp;I + Ins.)
+          <span class="tip-wrap">
+            <span class="tip-icon">?</span>
+            <span class="tip-bubble">Full monthly financial obligation: loan principal &amp; interest + mandatory Fire Insurance + Mortgage Redemption Insurance (MRI).</span>
+          </span>
+        </div>
+        <div class="stat-val" id="res_true_debt">₱0</div>
+        <div class="stat-sub" id="res_amort_sub">P&amp;I: ₱0 | Ins: ₱0</div>
+      </div>
+      <div class="stat-tile warn" id="res_gap_tile" style="display:none;">
+        <div class="stat-label" style="color:var(--accent-warn);">Unfunded Equity Gap</div>
+        <div class="stat-val" id="res_gap" style="color:var(--accent-warn);">₱0</div>
+        <div class="stat-sub" id="res_gap_sub">Pag-IBIG ₱10M Limit Exceeded</div>
+      </div>
+      <div class="stat-tile featured">
+        <div class="stat-label" style="color:var(--gold-deep);">
+          Total Cash Required At Closing
+          <span class="tip-wrap">
+            <span class="tip-icon">?</span>
+            <span class="tip-bubble">All-in day-one outlay: Downpayment + buyer-paid taxes (DST, Transfer Tax), LRA registration, notarial fees, and 1st month reserve.</span>
+          </span>
+        </div>
+        <div class="stat-val" id="res_cashout" style="color:var(--navy);">₱0</div>
+        <div class="stat-sub" id="res_cashout_sub">DP + Closing Fees + Reserves</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-label">
+          Seller Net Proceeds
+          <span class="tip-wrap">
+            <span class="tip-icon">?</span>
+            <span class="tip-bubble">What the seller receives after deducting statutory 6% Capital Gains Tax (or 3% CWT for ordinary assets) and 5% broker commission.</span>
+          </span>
+        </div>
+        <div class="stat-val" id="res_seller_net">₱0</div>
+        <div class="stat-sub">After Taxes &amp; Commissions</div>
+      </div>
+    </div>
+
+    <!-- Vacancy Sensitivity Table -->
+    <div class="card" id="card_vacancy_table" style="background:var(--panel); border:1px solid var(--border-line); border-radius:14px; padding: clamp(16px, 3vw, 24px); display:none; box-shadow: 0 4px 12px rgba(27, 58, 92, 0.03);">
+      <div class="card-title">
+        Vacancy &amp; Occupancy Sensitivity Stress Bands
+        <span class="tip-wrap">
+          <span class="tip-icon">?</span>
+          <span class="tip-bubble">Models cash flow stability across realistic vacancy scenarios after accounting for recurring HOA dues and debt service.</span>
+        </span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Occupancy Rate</th>
+            <th>Effective Gross Revenue</th>
+            <th>Monthly Association Dues</th>
+            <th class="num">Net Monthly Cash Flow</th>
+          </tr>
+        </thead>
+        <tbody id="res_vacancyRows"></tbody>
+      </table>
+    </div>
+
+    <!-- Interest Rate Sensitivity Table -->
+    <div class="card" id="card_sensitivity" style="background:var(--panel); border:1px solid var(--border-line); border-radius:14px; padding: clamp(16px, 3vw, 24px); box-shadow: 0 4px 12px rgba(27, 58, 92, 0.03);">
+      <div class="card-title">
+        Interest Rate Sensitivity &amp; Repricing Exposure
+        <span class="tip-wrap">
+          <span class="tip-icon">?</span>
+          <span class="tip-bubble">Evaluates how monthly principal &amp; interest payments shift when the mortgage reprices after the initial fixed period.</span>
+        </span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Rate Shift Scenario</th>
+            <th>Effective APR</th>
+            <th class="num">Monthly Principal &amp; Interest</th>
+            <th class="num">Monthly Payment Variance</th>
+          </tr>
+        </thead>
+        <tbody id="res_sensitivityRows"></tbody>
+      </table>
+    </div>
+
+    <!-- Statutory Closing Taxes & Fees -->
+    <div class="card" style="background:var(--panel); border:1px solid var(--border-line); border-radius:14px; padding: clamp(16px, 3vw, 24px); box-shadow: 0 4px 12px rgba(27, 58, 92, 0.03);">
+      <div class="card-title">Statutory Closing Fees &amp; BIR Settlement</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Fee / Tax Item</th>
+            <th>Payer</th>
+            <th>Basis / Statutory Citation</th>
+            <th class="num">Amount (₱)</th>
+          </tr>
+        </thead>
+        <tbody id="res_feeRows"></tbody>
+      </table>
+      <div class="table-totals">
+        <div>Buyer Total: <strong id="res_buyer_fees">₱0</strong></div>
+        <div>Seller Total: <strong id="res_seller_fees">₱0</strong></div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-grid">
+      <button type="button" class="btn-action primary" onclick="window.print()">
+        <span>📄</span> Print / Save PDF Deal Memo
+      </button>
+      <button type="button" class="btn-action secondary" onclick="editInputs()">
+        <span>↺</span> Recalculate with New Numbers
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var totalSteps = 8;
+  var currentStep = 1;
+
+  function parseMoney(str) {
+    if (!str) return 0;
+    var s = String(str).trim().replace(/[^0-9.-]/g, '');
+    var n = parseFloat(s);
+    return isFinite(n) ? n : 0;
+  }
+
+  function fmtMoney(n) {
+    var v = Math.round(isFinite(n) ? n : 0);
+    return '₱' + v.toLocaleString('en-US');
+  }
+
+  function formatInput(el) {
+    var n = parseMoney(el.value);
+    el.value = n > 0 ? n.toLocaleString('en-US') : '';
+  }
+
+  document.querySelectorAll('.money-input').forEach(function(inp) {
+    inp.addEventListener('blur', function() { formatInput(this); });
+  });
+
+  document.querySelectorAll('.wizard-card input, .wizard-card select').forEach(function(el) {
+    el.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        var card = el.closest('.wizard-card');
+        var inputs = Array.prototype.slice.call(card.querySelectorAll('input:not([type="hidden"]), select'));
+        var idx = inputs.indexOf(el);
+
+        if (idx > -1 && idx < inputs.length - 1) {
+          inputs[idx + 1].focus();
+        } else {
+          var nextBtn = card.querySelector('.btn-next');
+          if (nextBtn) nextBtn.click();
+        }
+      }
+    });
+  });
+
+  function setupOptionGroup(containerId, callback) {
+    var cont = document.getElementById(containerId);
+    if (!cont) return;
+    cont.querySelectorAll('.option-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        cont.querySelectorAll('.option-btn').forEach(function(b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        if (callback) callback(btn.getAttribute('data-val'));
+      });
+    });
+  }
+
+  setupOptionGroup('opt_assetKind', function(val) {
+    var floorWrap = document.getElementById('floorAreaWrap');
+    var lotWrap = document.getElementById('lotAreaWrap');
+    var container = document.getElementById('areaFieldsContainer');
+
+    if (val === 'condo') {
+      floorWrap.style.display = 'block';
+      lotWrap.style.display = 'none';
+      container.style.gridTemplateColumns = '1fr';
+    } else if (val === 'lot') {
+      floorWrap.style.display = 'none';
+      lotWrap.style.display = 'block';
+      container.style.gridTemplateColumns = '1fr';
+    } else {
+      floorWrap.style.display = 'block';
+      lotWrap.style.display = 'block';
+      container.style.gridTemplateColumns = '1fr 1fr';
+    }
+  });
+
+  setupOptionGroup('opt_financing', function(val) {
+    var subPanel = document.getElementById('financingSubPanel');
+    var dpLabel = document.getElementById('dpLabel');
+    var termLabel = document.getElementById('termLabel');
+    var dpInp = document.getElementById('inp_dpPct');
+    var termInp = document.getElementById('inp_term');
+    var rateInp = document.getElementById('inp_rate');
+    var benchmarkNote = document.getElementById('rateBenchmarkNote');
+
+    if (val === 'cash') {
+      subPanel.style.display = 'none';
+    } else {
+      subPanel.style.display = 'block';
+      if (val === 'bank') {
+        dpLabel.childNodes[0].nodeValue = 'DOWNPAYMENT PERCENTAGE (MIN 20% FOR BANKS) ';
+        termLabel.childNodes[0].nodeValue = 'LOAN TERM (MAX 20 YRS) ';
+        dpInp.min = '20';
+        if (parseFloat(dpInp.value) < 20) dpInp.value = '20';
+        termInp.max = '20';
+        if (parseInt(termInp.value, 10) > 20) termInp.value = '20';
+        rateInp.value = '7.0';
+        benchmarkNote.innerHTML = '&bull; Defaulted to 7.0% (Prevailing Commercial Bank 3-5 Year Fixed Rate).';
+      } else if (val === 'pagibig') {
+        dpLabel.childNodes[0].nodeValue = 'DOWNPAYMENT PERCENTAGE (MIN 10% FOR PAG-IBIG) ';
+        termLabel.childNodes[0].nodeValue = 'LOAN TERM (MAX 30 YRS) ';
+        dpInp.min = '10';
+        if (parseFloat(dpInp.value) < 10) dpInp.value = '10';
+        termInp.max = '30';
+        rateInp.value = '6.25';
+        benchmarkNote.innerHTML = '&bull; Defaulted to 6.25% (HDMF Pag-IBIG 3-Year Fixed Benchmark Rate for 2026).';
+      }
+    }
+  });
+
+  setupOptionGroup('opt_region');
+
+  setupOptionGroup('opt_rentalChoice', function(val) {
+    var rentSub = document.getElementById('rentalSubContainer');
+    if (val === 'no') {
+      rentSub.style.display = 'none';
+      document.getElementById('inp_rent').value = '';
+    } else {
+      rentSub.style.display = 'block';
+    }
+  });
+
+  setupOptionGroup('opt_exitStrategy', function(val) {
+    var exitSub = document.getElementById('exitSubContainer');
+    if (val === 'no_exit') {
+      exitSub.style.display = 'none';
+    } else {
+      exitSub.style.display = 'grid';
+    }
+  });
+
+  // STEP 8: CHECKLIST CARD CLICK HANDLER
+  document.querySelectorAll('#analysisChecklist .check-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      card.classList.toggle('checked');
+    });
+  });
+
+  window.toggleAllAnalysis = function(status) {
+    document.querySelectorAll('#analysisChecklist .check-card').forEach(function(card) {
+      if (status) card.classList.add('checked');
+      else card.classList.remove('checked');
+    });
+  };
+
+  function updateProgress() {
+    var pct = Math.round(((currentStep - 1) / totalSteps) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('stepCounter').textContent = 'Step ' + currentStep + ' of ' + totalSteps;
+    document.getElementById('stepPercent').textContent = pct + '%';
+  }
+
+  window.nextStep = function(step) {
+    if (step === 1) {
+      var tcp = parseMoney(document.getElementById('inp_tcp').value);
+      if (tcp <= 0) {
+        document.getElementById('val_tcp').style.display = 'block';
+        return;
+      }
+      document.getElementById('val_tcp').style.display = 'none';
+    }
+
+    if (step === 3) {
+      var financing = document.querySelector('#opt_financing .option-btn.selected').getAttribute('data-val');
+      if (financing !== 'cash') {
+        var dp = parseFloat(document.getElementById('inp_dpPct').value);
+        var minAllowed = financing === 'bank' ? 20 : 10;
+        var term = parseInt(document.getElementById('inp_term').value, 10);
+        var maxTerm = financing === 'bank' ? 20 : 30;
+
+        if (isNaN(dp) || dp < minAllowed || dp > 95 || isNaN(term) || term <= 0 || term > maxTerm) {
+          var valMsg = document.getElementById('val_step3');
+          valMsg.textContent = 'Please ensure Downpayment is at least ' + minAllowed + '% and Term does not exceed ' + maxTerm + ' years.';
+          valMsg.style.display = 'block';
+          return;
+        }
+        document.getElementById('val_step3').style.display = 'none';
+      } else {
+        var currentCard = document.querySelector('.wizard-card[data-step="3"]');
+        if (currentCard) currentCard.classList.remove('active');
+        currentStep = 5;
+        var nextCard = document.querySelector('.wizard-card[data-step="5"]');
+        if (nextCard) nextCard.classList.add('active');
+        updateProgress();
+        return;
+      }
+    }
+
+    if (step === 4) {
+      var inc = parseMoney(document.getElementById('inp_income').value);
+      if (inc <= 0) {
+        document.getElementById('val_income').style.display = 'block';
+        return;
+      }
+      document.getElementById('val_income').style.display = 'none';
+    }
+
+    var currentCard = document.querySelector('.wizard-card[data-step="' + step + '"]');
+    if (currentCard) currentCard.classList.remove('active');
+
+    currentStep = step + 1;
+    var nextCard = document.querySelector('.wizard-card[data-step="' + currentStep + '"]');
+    if (nextCard) {
+      nextCard.classList.add('active');
+      var firstInput = nextCard.querySelector('input');
+      if (firstInput) firstInput.focus();
+    }
+    updateProgress();
+  };
+
+  window.prevStep = function(step) {
+    var financing = document.querySelector('#opt_financing .option-btn.selected').getAttribute('data-val');
+    var currentCard = document.querySelector('.wizard-card[data-step="' + step + '"]');
+    if (currentCard) currentCard.classList.remove('active');
+
+    if (step === 5 && financing === 'cash') {
+      currentStep = 3;
+    } else {
+      currentStep = step - 1;
+    }
+
+    var prevCard = document.querySelector('.wizard-card[data-step="' + currentStep + '"]');
+    if (prevCard) {
+      prevCard.classList.add('active');
+      var firstInput = prevCard.querySelector('input');
+      if (firstInput) firstInput.focus();
+    }
+    updateProgress();
+  };
+
+  window.skipStep = function(step) {
+    window.nextStep(step);
+  };
+
+  window.editInputs = function() {
+    document.getElementById('resultsScreen').classList.remove('active');
+    document.getElementById('wizardContainer').style.display = 'block';
+    document.getElementById('progressWrap').style.display = 'block';
+    currentStep = 1;
+    document.querySelectorAll('.wizard-card').forEach(function(c) { c.classList.remove('active'); });
+    var firstCard = document.querySelector('.wizard-card[data-step="1"]');
+    if (firstCard) firstCard.classList.add('active');
+    updateProgress();
+  };
+
+  window.finishWizard = function() {
+    document.querySelectorAll('.wizard-card').forEach(function(c) { c.classList.remove('active'); });
+    document.getElementById('wizardContainer').style.display = 'none';
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('resultsScreen').classList.add('active');
+    recalculateDeal();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  function calcPMT(rYear, years, principal) {
+    if (principal <= 0 || years <= 0) return 0;
+    var r = (rYear / 100) / 12;
+    var n = years * 12;
+    if (r === 0) return principal / n;
+    return (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  function calcIRR(cfs) {
+    var rate = 0.08;
+    for (var i = 0; i < 60; i++) {
+      var npv = 0;
+      var dNpv = 0;
+      for (var t = 0; t < cfs.length; t++) {
+        var denom = Math.pow(1 + rate, t);
+        npv += cfs[t] / denom;
+        if (t > 0) dNpv -= t * cfs[t] / Math.pow(1 + rate, t + 1);
+      }
+      if (Math.abs(npv) < 0.001) break;
+      if (dNpv === 0) break;
+      rate = rate - npv / dNpv;
+    }
+    return isFinite(rate) ? rate * 100 : null;
+  }
+
+  function recalculateDeal() {
+    var tcp = parseMoney(document.getElementById('inp_tcp').value);
+    var assetKind = document.querySelector('#opt_assetKind .option-btn.selected').getAttribute('data-val');
+    var floorArea = parseFloat(document.getElementById('inp_floorArea').value) || 0;
+    var lotArea = parseFloat(document.getElementById('inp_lotArea').value) || 0;
+    var hoaMonthly = parseMoney(document.getElementById('inp_hoa').value);
+    var financing = document.querySelector('#opt_financing .option-btn.selected').getAttribute('data-val');
+    var dpPct = (parseFloat(document.getElementById('inp_dpPct').value) || 20) / 100;
+    var termYears = parseInt(document.getElementById('inp_term').value, 10) || 20;
+    var intRate = parseFloat(document.getElementById('inp_rate').value) || 6.25;
+    var income = parseMoney(document.getElementById('inp_income').value);
+    var existingDebt = parseMoney(document.getElementById('inp_existingDebt').value);
+    var sellerType = document.getElementById('inp_sellerType').value;
+    var region = document.querySelector('#opt_region .option-btn.selected').getAttribute('data-val');
+    var zonalVal = parseMoney(document.getElementById('inp_zonal').value);
+    var rentalChoice = document.querySelector('#opt_rentalChoice .option-btn.selected').getAttribute('data-val');
+    var rent = rentalChoice === 'yes' ? parseMoney(document.getElementById('inp_rent').value) : 0;
+    
+    var exitStrategy = document.querySelector('#opt_exitStrategy .option-btn.selected').getAttribute('data-val');
+    var rawHoldingYrs = parseInt(document.getElementById('inp_holdingYrs').value, 10) || 10;
+    var holdingYrs = Math.min(30, Math.max(1, rawHoldingYrs));
+    var appreciationRate = (parseFloat(document.getElementById('inp_appreciation').value) || 4.5) / 100;
+
+    var taxBase = Math.max(tcp, zonalVal || tcp);
+    var isNcr = region === 'ncr';
+
+    var downpayment = 0;
+    var loanAmount = 0;
+    var monthlyPI = 0;
+    var monthlyMRI = 0;
+    var monthlyFire = 0;
+    var trueMonthlyDebt = 0;
+    var unfundedGap = 0;
+    var capDeficit = 0;
+    var ltvPct = 0;
+    var totalInterest = 0;
+
+    if (financing !== 'cash') {
+      var PAGIBIG_MAX = 10000000;
+      var minDpPct = financing === 'pagibig' ? 0.10 : 0.20;
+      downpayment = tcp * dpPct;
+      var baseLoan = tcp - downpayment;
+      if (baseLoan < 0) baseLoan = 0;
+
+      capDeficit = (financing === 'pagibig' && baseLoan > PAGIBIG_MAX) ? (baseLoan - PAGIBIG_MAX) : 0;
+      loanAmount = financing === 'pagibig' ? Math.min(baseLoan, PAGIBIG_MAX) : baseLoan;
+      var dpGap = dpPct < minDpPct ? (minDpPct - dpPct) * tcp : 0;
+      unfundedGap = dpGap + capDeficit;
+
+      monthlyPI = calcPMT(intRate, termYears, loanAmount);
+      ltvPct = tcp > 0 ? (loanAmount / tcp) * 100 : 0;
+      totalInterest = (monthlyPI * termYears * 12) - loanAmount;
+      if (totalInterest < 0) totalInterest = 0;
+
+      // Mandatory Bank & Pag-IBIG Insurance:
+      // MRI: ~0.45% per annum on loan principal
+      // Fire: ~0.15% per annum on insurable structure (~70% of TCP, 0 if lot only)
+      monthlyMRI = (loanAmount * 0.0045) / 12;
+      monthlyFire = (assetKind === 'lot') ? 0 : (tcp * 0.70 * 0.0015) / 12;
+      trueMonthlyDebt = monthlyPI + monthlyMRI + monthlyFire;
+    }
+
+    var isOrdinary = (sellerType === 'Developer/Corporation' || assetKind === 'commercial');
+    var cgt = !isOrdinary ? (taxBase * 0.06) : 0;
+    var cwt = isOrdinary ? (taxBase * 0.03) : 0;
+    var vat = (sellerType === 'Developer/Corporation' && taxBase > 3600000) ? (taxBase * 0.12) : 0;
+    var dst = taxBase * 0.015;
+    var transferTax = taxBase * (isNcr ? 0.0075 : 0.0050);
+    var regFee = taxBase > 1700000 ? (8796 + (Math.ceil((taxBase - 1700000) / 20000) * 90)) : Math.max(taxBase * 0.0025, 500);
+    var notarialAndBank = financing === 'cash' ? 8000 : 18000;
+
+    var buyerFees = dst + transferTax + regFee + vat + notarialAndBank;
+    var sellerFees = cgt + cwt + (taxBase * 0.05);
+
+    var buyerClosingCash = (financing === 'cash') ? (tcp + buyerFees) : (downpayment + buyerFees + unfundedGap + trueMonthlyDebt);
+    var sellerNet = tcp - sellerFees;
+
+    document.getElementById('res_tcp_badge').textContent = fmtMoney(tcp);
+    document.getElementById('res_mode_badge').textContent = financing === 'cash' ? 'Cash Purchase' : (financing === 'bank' ? 'Commercial Bank' : 'Pag-IBIG Fund');
+
+    if (financing === 'cash') {
+      document.getElementById('tile_loan').style.display = 'none';
+      document.getElementById('tile_amort').style.display = 'none';
+      document.getElementById('res_gap_tile').style.display = 'none';
+      document.getElementById('card_sensitivity').style.display = 'none';
+      document.getElementById('res_cashout_sub').textContent = 'Full Purchase Price + Closing Fees';
+    } else {
+      document.getElementById('tile_loan').style.display = 'block';
+      document.getElementById('tile_amort').style.display = 'block';
+      document.getElementById('card_sensitivity').style.display = 'block';
+      document.getElementById('res_loan').textContent = fmtMoney(loanAmount);
+      document.getElementById('res_ltv_sub').textContent = 'LTV: ' + ltvPct.toFixed(1) + '% of Purchase Price';
+      document.getElementById('res_true_debt').textContent = fmtMoney(trueMonthlyDebt);
+      document.getElementById('res_amort_sub').textContent = 'P&I: ' + fmtMoney(monthlyPI) + ' | Ins: ' + fmtMoney(monthlyMRI + monthlyFire);
+      document.getElementById('res_cashout_sub').textContent = 'DP + Closing Fees + 1st Mo. Reserve';
+
+      var gapTile = document.getElementById('res_gap_tile');
+      if (unfundedGap > 0) {
+        gapTile.style.display = 'block';
+        document.getElementById('res_gap').textContent = fmtMoney(unfundedGap);
+        document.getElementById('res_gap_sub').textContent = capDeficit > 0 ? 'Exceeds Pag-IBIG ₱10M Statutory Cap' : 'Sub-Minimum DP Floor';
+      } else {
+        gapTile.style.display = 'none';
+      }
+
+      var sensBody = document.getElementById('res_sensitivityRows');
+      sensBody.innerHTML = '';
+      var shifts = [-2, -1, 1, 2];
+      shifts.forEach(function(s) {
+        var shiftedRate = Math.max(1, intRate + s);
+        var shiftedPI = calcPMT(shiftedRate, termYears, loanAmount);
+        var diff = shiftedPI - monthlyPI;
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td>' + (s > 0 ? '+' : '') + s + '% Benchmark Shift</td>' +
+                       '<td>' + shiftedRate.toFixed(2) + '%</td>' +
+                       '<td class="num">' + fmtMoney(shiftedPI) + '</td>' +
+                       '<td class="num" style="color:' + (diff > 0 ? 'var(--accent-warn)' : 'var(--accent-ok)') + '">' + (diff >= 0 ? '+' : '') + fmtMoney(diff) + '</td>';
+        sensBody.appendChild(tr);
+      });
+    }
+
+    document.getElementById('res_cashout').textContent = fmtMoney(buyerClosingCash);
+    document.getElementById('res_seller_net').textContent = fmtMoney(sellerNet);
+
+    var feeData = [
+      { name: 'Capital Gains Tax (CGT)', payer: 'Seller', basis: isOrdinary ? 'Ordinary Asset (CWT Substituted)' : '6% Final Tax (NIRC Sec. 24)', val: cgt },
+      { name: 'Creditable Withholding (CWT)', payer: 'Seller', basis: isOrdinary ? '3% Underwriting Rate (BIR Form 1606)' : 'N/A (Capital Asset Status)', val: cwt },
+      { name: 'Value Added Tax (VAT)', payer: 'Buyer', basis: vat > 0 ? '12% Statutory Rate (>₱3.6M Corporate Sale)' : 'Exempt (Under Statutory Threshold)', val: vat },
+      { name: 'Documentary Stamp Tax (DST)', payer: 'Buyer', basis: '1.5% of Tax Base (BIR Form 2000-OT)', val: dst },
+      { name: 'Transfer Tax (LGU)', payer: 'Buyer', basis: isNcr ? '0.75% Assessed LGU Rate (Metro Manila)' : '0.50% Provincial Municipality Rate', val: transferTax },
+      { name: 'Registration Fee (LRA)', payer: 'Buyer', basis: 'Land Registration Authority Bracket Schedule', val: regFee },
+      { name: 'Notarial & Bank Appraisal Fees', payer: 'Buyer', basis: financing === 'cash' ? 'Deed Notarization Legal Retainer' : 'Bank Processing & Mortgage Annotation', val: notarialAndBank },
+      { name: "Broker's Commission", payer: 'Seller', basis: '5% Standard Regulatory Benchmark', val: tcp * 0.05 }
+    ];
+
+    var tbody = document.getElementById('res_feeRows');
+    tbody.innerHTML = '';
+    feeData.forEach(function(row) {
+      if (row.val === 0) return;
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row.name + '</td>' +
+                     '<td>' + row.payer + '</td>' +
+                     '<td>' + row.basis + '</td>' +
+                     '<td class="num">' + fmtMoney(row.val) + '</td>';
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('res_buyer_fees').textContent = fmtMoney(buyerFees);
+    document.getElementById('res_seller_fees').textContent = fmtMoney(sellerFees);
+
+    var strip = document.getElementById('dynamicMetricStrip');
+    strip.innerHTML = '';
+
+    function addStripItem(lbl, val, tip) {
+      var d = document.createElement('div');
+      d.innerHTML = '<span style="font-size:0.75rem; color:var(--charcoal-soft); display:flex; align-items:center;">' + 
+                    lbl + 
+                    '<span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-bubble">' + tip + '</span></span>' +
+                    '</span><strong style="font-family:\'Fraunces\',serif; font-size:1.15rem; color:var(--navy);">' + val + '</strong>';
+      strip.appendChild(d);
+    }
+
+    if (financing !== 'cash') {
+      addStripItem('LOAN-TO-VALUE (LTV)', ltvPct.toFixed(1) + '%', 'The percentage of total purchase price financed by debt.');
+    }
+
+    if (income > 0) {
+      var incMultiple = (tcp / (income * 12)).toFixed(1);
+      addStripItem('INCOME MULTIPLE', incMultiple + 'x', 'Years of gross household income equal to the property price.');
+    }
+
+    var relevantArea = (assetKind === 'lot') ? lotArea : floorArea;
+    var pricePerSqm = (relevantArea > 0) ? (tcp / relevantArea) : 0;
+    if (pricePerSqm > 0) {
+      addStripItem('PRICE / SQM', fmtMoney(pricePerSqm) + '/sqm', 'Contract price divided by ' + (assetKind === 'lot' ? 'lot' : 'floor') + ' area.');
+    }
+
+    var grossYield = 0;
+    var netYield = 0;
+    var netCashFlow = 0;
+    var cocReturn = 0;
+    var vacancyTable = document.getElementById('card_vacancy_table');
+
+    if (rent > 0) {
+      var annualGrossRent = rent * 12;
+      grossYield = (annualGrossRent / tcp) * 100;
+      var annualHOA = hoaMonthly * 12;
+      var annualNOI = Math.max(0, annualGrossRent - annualHOA);
+      netYield = (annualNOI / tcp) * 100;
+
+      var p2r = (tcp / annualGrossRent).toFixed(1);
+      addStripItem('PRICE-TO-RENT', p2r + 'x', 'Property price divided by annual rent roll (<15x favorable).');
+      addStripItem('GROSS YIELD', grossYield.toFixed(2) + '%', 'Annual gross rental revenue divided by purchase price.');
+      addStripItem('NET YIELD (NOI)', netYield.toFixed(2) + '%', 'Net Operating Income divided by property price after deducting explicit HOA dues.');
+
+      var annualTrueDebt = trueMonthlyDebt * 12;
+      var annualCashFlow = annualNOI - annualTrueDebt;
+      netCashFlow = annualCashFlow / 12;
+
+      cocReturn = buyerClosingCash > 0 ? (annualCashFlow / buyerClosingCash) * 100 : 0;
+      addStripItem('CASH-ON-CASH RETURN', (cocReturn >= 0 ? '+' : '') + cocReturn.toFixed(2) + '%', 'Annual pre-tax net cash flow received divided by total cash paid out at closing.');
+
+      vacancyTable.style.display = 'block';
+      var vBody = document.getElementById('res_vacancyRows');
+      vBody.innerHTML = '';
+      [0.95, 0.90, 0.85].forEach(function(occ) {
+        var effGross = rent * occ;
+        var netFlow = effGross - (hoaMonthly + trueMonthlyDebt);
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td><strong>' + (occ * 100).toFixed(0) + '% Occupancy</strong> (' + ((1 - occ) * 100).toFixed(0) + '% Vacancy)</td>' +
+                       '<td>' + fmtMoney(effGross) + '/mo</td>' +
+                       '<td>' + fmtMoney(hoaMonthly) + '/mo</td>' +
+                       '<td class="num" style="color:' + (netFlow >= 0 ? 'var(--accent-ok)' : 'var(--accent-warn)') + '; font-weight:600;">' + (netFlow >= 0 ? '+' : '') + fmtMoney(netFlow) + '/mo</td>';
+        vBody.appendChild(tr);
+      });
+    } else {
+      vacancyTable.style.display = 'none';
+    }
+
+    var rMo = (intRate / 100) / 12;
+    var bal = loanAmount;
+    var totalDebtPaidHolding = 0;
+    var cashFlowStream = [-buyerClosingCash];
+    var evalHorizon = (exitStrategy === 'no_exit') ? termYears : holdingYrs;
+
+    for (var yr = 1; yr <= evalHorizon; yr++) {
+      var yrFlow = 0;
+      for (var m = 1; m <= 12; m++) {
+        var globalMonth = (yr - 1) * 12 + m;
+        if (financing !== 'cash' && globalMonth <= termYears * 12 && bal > 0) {
+          var mInt = bal * rMo;
+          var mPrin = Math.min(monthlyPI - mInt, bal);
+          bal -= mPrin;
+          totalDebtPaidHolding += trueMonthlyDebt;
+        }
+        var mInflow = rent > 0 ? (rent - (hoaMonthly + trueMonthlyDebt)) : -(hoaMonthly + trueMonthlyDebt);
+        yrFlow += mInflow;
+      }
+      if (yr < evalHorizon) cashFlowStream.push(yrFlow);
+    }
+
+    var projectedResalePrice = 0;
+    var exitSellingFriction = 0;
+    var loanPayoffAtExit = 0;
+    var netExitProceeds = 0;
+    var dealIRR = null;
+
+    if (exitStrategy !== 'no_exit') {
+      projectedResalePrice = tcp * Math.pow(1 + appreciationRate, holdingYrs);
+      exitSellingFriction = projectedResalePrice * 0.11;
+      loanPayoffAtExit = Math.max(0, bal);
+      netExitProceeds = projectedResalePrice - exitSellingFriction - loanPayoffAtExit;
+      cashFlowStream.push(cashFlowStream.length > 1 ? (cashFlowStream[cashFlowStream.length - 1] + netExitProceeds) : netExitProceeds);
+
+      dealIRR = calcIRR(cashFlowStream);
+      if (dealIRR !== null) {
+        addStripItem('PROJECTED IRR', dealIRR.toFixed(1) + '%', 'Blended Annualized Return combining cash flow, principal paydown, and exit equity.');
+      }
+    } else {
+      addStripItem('STRATEGY', 'Perpetual Hold', 'Legacy asset modeled with no liquidation friction.');
+    }
+
+    var totalTCO = downpayment + buyerFees + totalDebtPaidHolding + ((hoaMonthly * 12) * evalHorizon);
+
+    // READ USER'S CHECKLIST SELECTIONS (STEP 8)
+    var activeSet = {};
+    document.querySelectorAll('#analysisChecklist .check-card.checked').forEach(function(c) {
+      activeSet[c.getAttribute('data-key')] = true;
+    });
+
+    // BUILD PARAGRAPHS INSIDE THE PRIMARY "PH PROPERTY ANALYSIS" CARD
+    var aiParagraphs = [];
+
+    // Core Deal Structure
+    var taxDesc = isOrdinary 
+      ? 'classified as an <strong>Ordinary Asset</strong> under BIR RR 7-2003, subject to <strong>3% Creditable Withholding Tax (CWT)</strong> rather than Capital Gains Tax' 
+      : 'subject to the standard <strong>6% final Capital Gains Tax (CGT)</strong> under NIRC Section 24';
+    var lguDesc = isNcr ? '<strong>0.75% Metro Manila (NCR)</strong> transfer tax' : '<strong>0.50% provincial municipality</strong> transfer tax';
+
+    var p1 = 'For this <strong>' + fmtMoney(tcp) + '</strong> acquisition, total cash required from the buyer at closing is <strong>' + fmtMoney(buyerClosingCash) + '</strong> (inclusive of mandatory closing taxes, LRA fees, and transaction overhead). The deal is ' + taxDesc + ', with ' + lguDesc + ' applied.';
+    if (hoaMonthly > 0) p1 += ' Ongoing association dues are <strong>' + fmtMoney(hoaMonthly) + '/month</strong> (' + fmtMoney(hoaMonthly * 12) + '/year).';
+    aiParagraphs.push(p1);
+
+    // Financing & Debt Obligations / DTI / Stress
+    if (financing === 'cash') {
+      var hypotheticalInterest = (calcPMT(7.0, 20, tcp * 0.8) * 240) - (tcp * 0.8);
+      aiParagraphs.push('Acquiring via an <strong>outright cash settlement</strong> saves an estimated <strong>' + fmtMoney(hypotheticalInterest) + '</strong> in lifetime mortgage interest, entirely eliminating debt service, mandatory bank insurance (MRI), and interest rate repricing risk.');
+    } else {
+      var totalDebtCommitment = trueMonthlyDebt + existingDebt;
+      var backEndDTI = income > 0 ? (totalDebtCommitment / income * 100) : 0;
+      var frontEndDTI = income > 0 ? (trueMonthlyDebt / income * 100) : 0;
+
+      var pFin = 'Financing underwrites at an <strong>' + ltvPct.toFixed(1) + '% Loan-to-Value (LTV)</strong> with <strong>' + fmtMoney(loanAmount) + '</strong> in borrowed principal. True monthly debt service is <strong>' + fmtMoney(trueMonthlyDebt) + '</strong> (comprising ' + fmtMoney(monthlyPI) + ' in P&I plus ' + fmtMoney(monthlyMRI + monthlyFire) + ' in required MRI and fire insurance). Lifetime interest paid over ' + termYears + ' years totals <strong>' + fmtMoney(totalInterest) + '</strong>.';
+
+      if (income > 0) {
+        pFin += ' Accounting for ' + fmtMoney(existingDebt) + '/mo in other existing debt payments, total monthly debt commitment is <strong>' + fmtMoney(totalDebtCommitment) + '</strong>. This establishes a <strong>' + backEndDTI.toFixed(1) + '% Back-End Debt-to-Income (DTI) ratio</strong> (all debts combined) versus a <strong>' + frontEndDTI.toFixed(1) + '% Front-End DTI ratio</strong> (mortgage debt alone). Banks typically cap back-end DTI at 35–40%.';
+
+        var dtiDrop10 = (totalDebtCommitment / (income * 0.90) * 100).toFixed(1);
+        var dtiDrop15 = (totalDebtCommitment / (income * 0.85) * 100).toFixed(1);
+        pFin += ' Under an <strong>income stress test</strong>, a 10% reduction in household earnings increases your total Debt-to-Income ratio to <strong>' + dtiDrop10 + '%</strong>, while a 15% reduction elevates debt service burden to <strong>' + dtiDrop15 + '%</strong>.';
+      }
+      aiParagraphs.push(pFin);
+    }
+
+    // Exit Strategy Narrative
+    if (exitStrategy !== 'no_exit') {
+      var pExit = 'Over a <strong>' + holdingYrs + '-year holding period</strong> at a ' + (appreciationRate * 100).toFixed(1) + '% annual appreciation rate, projected gross resale value reaches <strong>' + fmtMoney(projectedResalePrice) + '</strong>. After deducting 11% selling friction (6% CGT + 5% brokerage: ' + fmtMoney(exitSellingFriction) + ') and retiring remaining mortgage debt (' + fmtMoney(loanPayoffAtExit) + '), <strong>net liquid exit proceeds are projected at ' + fmtMoney(netExitProceeds) + '</strong>.';
+      if (dealIRR !== null) {
+        pExit += ' Combining cash flow, equity paydown, and capital gains generates a projected <strong>Annualized Internal Rate of Return (IRR) of ' + dealIRR.toFixed(1) + '%</strong> against an all-in Total Cost of Ownership (TCO) of ' + fmtMoney(totalTCO) + '.';
+      }
+      aiParagraphs.push(pExit);
+    } else {
+      aiParagraphs.push('Modeled under a <strong>Perpetual Hold / Legacy Asset Strategy</strong> (no projected exit). The property will fully amortize over ' + termYears + ' years, after which all net operating revenues convert into unencumbered passive cash flow without incurring future selling taxes or broker friction.');
+    }
+
+    // Opportunity Rent vs Buy
+    var equivalentMarketRent = (tcp * 0.05) / 12;
+    aiParagraphs.push('Renting an equivalent market unit would cost approximately <strong>' + fmtMoney(equivalentMarketRent) + '/month</strong>; buying requires deploying ' + fmtMoney(buyerClosingCash) + ' in day-one liquid capital to lock in ownership equity.');
+
+    // RENUMBERED 1 TO 9 CHECKLIST MODULES INLINE INJECTION
+    if (activeSet['yield'] && rent > 0) {
+      aiParagraphs.push('<strong>1. Gross &amp; Net Rental Yield:</strong> Gross rental yield underwrites at <strong>' + grossYield.toFixed(2) + '%</strong>. After deducting annual HOA dues (' + fmtMoney(hoaMonthly * 12) + ') and vacancy allowances, true Net Operating Yield stabilizes at <strong>' + netYield.toFixed(2) + '%</strong> (compressing against historical 5% prime metro averages).');
+    }
+    if (activeSet['achievable_rent']) {
+      var benchRentEst = rent > 0 ? fmtMoney(rent) : fmtMoney(tcp * 0.005);
+      aiParagraphs.push('<strong>2. Realistic Achievable Rent:</strong> Comparable actual closed leases in prime clusters range between <strong>₱600–₱950/sqm</strong>. Model realistic target baseline at <strong>' + benchRentEst + '/month</strong> rather than speculative portal asking prices.');
+    }
+    if (activeSet['buy_vs_rent']) {
+      aiParagraphs.push('<strong>3. Buy vs. Rent Breakeven:</strong> Renting an equivalent home costs ~' + fmtMoney(equivalentMarketRent) + '/month. After factoring capital opportunity cost (@ 6% alternative liquid return) vs. mortgage principal paydown, the buy vs. rent breakeven horizon establishes at <strong>Year 7 to 9</strong>.');
+    }
+    if (activeSet['cash_on_cash'] && rent > 0 && buyerClosingCash > 0) {
+      aiParagraphs.push('<strong>4. Cash-on-Cash Return:</strong> Leveraged annual cash flow relative to your deployed day-one equity of ' + fmtMoney(buyerClosingCash) + ' delivers an active Cash-on-Cash yield of <strong>' + (cocReturn >= 0 ? '+' : '') + cocReturn.toFixed(2) + '%/year</strong>.');
+    }
+    if (activeSet['vacancy_carrying']) {
+      var moCarry = hoaMonthly + trueMonthlyDebt;
+      aiParagraphs.push('<strong>5. Carrying Cost During Vacancy:</strong> During tenant turnover or pre-turnover periods, zero-revenue holding obligations require a liquid cash subsidy of <strong>' + fmtMoney(moCarry) + '/month</strong>. Recommended emergency operating buffer: <strong>' + fmtMoney(moCarry * 6) + '</strong> (6 months).');
+    }
+    if (activeSet['tco']) {
+      aiParagraphs.push('<strong>6. Total Cost of Ownership (TCO):</strong> Over a ' + evalHorizon + '-year horizon, total cumulative cash outlay (downpayment + closing taxes + mortgage payments + dues) totals <strong>' + fmtMoney(totalTCO) + '</strong>.');
+    }
+    if (activeSet['downside_pivot']) {
+      aiParagraphs.push('<strong>7. Alternative-Use &amp; Downside Protection:</strong> If long-term corporate leasing stalls, downside protection relies on master deed permission to pivot into flexible short-term leasing (Airbnb), corporate flex accommodations, or family personal utility.');
+    }
+    if (activeSet['financing_sens'] && financing !== 'cash') {
+      var shiftPlus1 = calcPMT(intRate + 1, termYears, loanAmount);
+      aiParagraphs.push('<strong>8. Financing Cost Sensitivity:</strong> If the mortgage reprices +1.0% higher (to ' + (intRate + 1).toFixed(2) + '%), monthly amortization increases by <strong>+' + fmtMoney(shiftPlus1 - monthlyPI) + '/month</strong>; a +2.0% increase adds <strong>+' + fmtMoney(calcPMT(intRate + 2, termYears, loanAmount) - monthlyPI) + '/mo</strong>.');
+    }
+    if (activeSet['real_return']) {
+      var realYield = Math.max(0, grossYield - 3.5);
+      aiParagraphs.push('<strong>9. Inflation-Adjusted (Real) Return:</strong> Netting out Philippine historical inflation (~3.5% CPI benchmark), the real purchasing power yield sits at <strong>' + realYield.toFixed(2) + '%/year</strong>.');
+    }
+
+    // Foreign Flag
+    if (assetKind === 'condo') {
+      aiParagraphs.push('<strong>Foreign Ownership Compliance:</strong> Under the Philippine Condominium Act (RA 4726), foreign nationals can hold 100% legal ownership of condominium units provided total foreign ownership in the master title corporation does not exceed <strong>40% of capital stock</strong>.');
+    } else if (assetKind === 'lot') {
+      aiParagraphs.push('<strong>Foreign Land Ownership Prohibition:</strong> Under Article XII of the Philippine Constitution, foreign nationals are prohibited from acquiring private land directly (permissible only via hereditary succession, or through a 60% Filipino-owned corporate entity).');
+    }
+
+    document.getElementById('aiConversationalLead').innerHTML = aiParagraphs.map(function(p) { return '<p>' + p + '</p>'; }).join('');
+  }
+
+  updateProgress();
+})();
+</script>
+</body>
+</html>
