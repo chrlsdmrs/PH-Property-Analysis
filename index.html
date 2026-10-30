@@ -193,6 +193,25 @@
     }
     .wizard-card.active { display: flex; }
 
+    /* WATERMARK BACKGROUND TREATMENTS */
+    .wizard-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background-repeat: no-repeat;
+      background-position: right 10px bottom 10px;
+      background-size: 160px;
+      opacity: 0.045;
+      pointer-events: none;
+    }
+    .wizard-card[data-step="1"]::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.5L18 11v7h-2v-6H8v6H6v-7l6-5.5z"/></svg>'); }
+    .wizard-card[data-step="2"]::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M19 2H5c-1.1 0-2 .9-2 2v18l4-4h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6.83L5 17.83V4h14v12z"/></svg>'); }
+    .wizard-card[data-step="3"]::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm9.5-20L2 6v2h19V6l-9.5-4z"/></svg>'); }
+    .wizard-card[data-step="4"]::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>'); }
+    .wizard-card[data-step="5"]::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'); }
+    .wizard-card[data-step="6"]::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>'); }
+    .wizard-card[data-step="7"]::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231B3A5C"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>'); }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
@@ -303,83 +322,6 @@
       color: var(--navy);
     }
 
-    /* MULTI-SELECT CHECKLIST GRID (STEP 8) */
-    .checklist-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      max-height: 420px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 16px;
-      margin-bottom: 18px;
-      isolation: isolate;
-    }
-    .check-card {
-      position: relative;
-      z-index: 1;
-      border: 1.5px solid var(--border-line);
-      border-left: 4px solid var(--slate-blue);
-      background-color: #FFFFFF !important;
-      border-radius: 10px;
-      padding: 14px 16px;
-      cursor: pointer;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                  box-shadow 0.2s ease, 
-                  border-color 0.2s ease, 
-                  background-color 0.2s ease;
-      user-select: none;
-      transform-origin: center center;
-    }
-    .check-card:hover {
-      z-index: 999 !important;
-      border-color: var(--gold);
-      border-left-color: var(--gold-deep);
-      transform: scale(1.08);
-      box-shadow: 0 16px 36px rgba(27, 58, 92, 0.26);
-    }
-    .check-card.checked {
-      border-color: var(--gold);
-      border-left-color: var(--gold-deep);
-      background-color: #FAF3E7 !important;
-    }
-    .check-indicator {
-      width: 18px;
-      height: 18px;
-      border-radius: 4px;
-      border: 2px solid var(--slate-blue);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 2px;
-      font-size: 11px;
-      color: transparent;
-      font-weight: 700;
-      background: #FFFFFF;
-      transition: all 0.15s ease;
-    }
-    .check-card.checked .check-indicator {
-      background: var(--gold);
-      border-color: var(--gold-deep);
-      color: #FFFFFF;
-    }
-    .check-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--navy);
-      line-height: 1.3;
-    }
-    .check-sub {
-      font-size: 0.72rem;
-      color: var(--charcoal-soft);
-      line-height: 1.35;
-      margin-top: 3px;
-    }
-
     .validation-msg {
       font-size: 0.8rem;
       color: var(--accent-warn);
@@ -416,11 +358,11 @@
     .btn-skip { background: transparent; color: var(--slate-blue); border: 1.5px dashed var(--slate-blue) !important; }
     .btn-skip:hover { background: rgba(74, 111, 165, 0.08); }
 
-    /* RESULTS SCREEN */
+    /* RESULTS SCREEN WITH SLIDE CAROUSEL */
     #resultsScreen {
       display: none;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
       width: 100%;
       animation: fadeIn 0.3s ease-out;
     }
@@ -453,14 +395,81 @@
     }
     .btn-edit-inputs:hover { border-color: var(--slate-blue); background: #FFFFFF; }
 
-    /* PLAIN-ENGLISH CARD LAYOUT STYLES */
-    .ai-card {
+    /* CAROUSEL CONTROLLER BAR */
+    .carousel-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--border-line);
+      border-radius: 12px;
+      padding: 10px 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .carousel-status {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .carousel-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .c-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--slate-soft);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .c-dot.active {
+      background: var(--gold);
+      transform: scale(1.25);
+    }
+    .carousel-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .c-btn {
+      padding: 7px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1.5px solid var(--border-line);
+      background: #FFFFFF;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .c-btn:hover:not(:disabled) {
+      border-color: var(--gold);
+      background: var(--gold-bg);
+    }
+    .c-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* SLIDE CARD CONTAINER */
+    .analysis-slide {
       background: var(--panel);
       border: 1.5px solid var(--gold);
       border-radius: 14px;
-      padding: clamp(20px, 4vw, 32px);
+      padding: clamp(20px, 4vw, 36px);
       box-shadow: 0 6px 20px rgba(201, 161, 93, 0.1);
+      display: none;
+      flex-direction: column;
+      animation: fadeIn 0.25s ease-out;
     }
+    .analysis-slide.active-slide {
+      display: flex;
+    }
+
     .ai-pill {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 0.72rem;
@@ -471,52 +480,41 @@
       font-weight: 700;
       text-transform: uppercase;
       display: inline-block;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       letter-spacing: 0.05em;
+      align-self: flex-start;
     }
-    .ai-lead {
+    .slide-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.25rem, 2.6vw, 1.55rem);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .slide-body {
       font-size: clamp(0.92rem, 2vw, 1.02rem);
       line-height: 1.75;
       color: var(--charcoal);
     }
-    .ai-lead p { margin-bottom: 14px; }
-    .ai-lead p:last-child { margin-bottom: 0; }
-    .ai-lead strong { color: var(--navy); font-weight: 700; }
-
-    .plain-section-header {
-      font-family: 'Fraunces', serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-top: 24px;
-      margin-bottom: 10px;
-      padding-bottom: 6px;
-      border-bottom: 1.5px solid var(--border-line);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .plain-section-header:first-of-type {
-      margin-top: 0;
-    }
+    .slide-body p { margin-bottom: 14px; }
+    .slide-body p:last-child { margin-bottom: 0; }
+    .slide-body strong { color: var(--navy); font-weight: 700; }
 
     .plain-stat-summary-box {
       background: var(--warm-white);
       border: 1px solid var(--border-line);
       border-radius: 10px;
       padding: 14px 18px;
-      margin-bottom: 16px;
+      margin: 14px 0;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
       font-size: 0.88rem;
     }
-    .plain-stat-item {
-      display: flex;
-      flex-direction: column;
-    }
+    .plain-stat-item { display: flex; flex-direction: column; }
     .plain-stat-item span {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--charcoal-soft);
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -531,7 +529,7 @@
     .plain-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 12px 0 16px;
+      margin: 14px 0;
       font-size: 0.86rem;
     }
     .plain-table th {
@@ -554,94 +552,47 @@
     }
 
     .plain-bullets {
-      margin: 8px 0 16px 20px;
+      margin: 10px 0 16px 20px;
       line-height: 1.7;
     }
-    .plain-bullets li {
-      margin-bottom: 6px;
-    }
+    .plain-bullets li { margin-bottom: 6px; }
 
     .stats-matrix {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 12px;
+      margin: 14px 0;
     }
     .stat-tile {
       background: var(--panel);
       border: 1px solid var(--border-line);
       border-radius: 12px;
-      padding: 16px;
+      padding: 14px;
       box-shadow: 0 4px 12px rgba(27, 58, 92, 0.03);
     }
     .stat-tile.featured { border-color: var(--gold); background: var(--gold-bg); }
     .stat-tile.warn { border-color: var(--accent-warn); background: rgba(220, 38, 38, 0.05); }
     .stat-label {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 600;
       color: var(--charcoal-soft);
       text-transform: uppercase;
       letter-spacing: 0.04em;
       margin-bottom: 4px;
-      display: flex;
-      align-items: center;
     }
     .stat-val {
       font-family: 'Fraunces', serif;
-      font-size: clamp(1.25rem, 2.8vw, 1.6rem);
+      font-size: clamp(1.2rem, 2.6vw, 1.45rem);
       font-weight: 600;
       color: var(--navy);
     }
-    .stat-sub { font-size: 0.75rem; color: var(--charcoal-soft); margin-top: 4px; }
-
-    .card-title {
-      font-family: 'Fraunces', serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 12px;
-      border-bottom: 1px solid var(--border-line);
-      padding-bottom: 8px;
-      color: var(--navy);
-    }
-
-    table.data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: clamp(0.78rem, 1.8vw, 0.88rem);
-    }
-    table.data-table th {
-      text-align: left;
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--border-line);
-      color: var(--charcoal-soft);
-      font-weight: 600;
-    }
-    table.data-table td {
-      padding: 10px;
-      border-bottom: 1px solid var(--border-line);
-    }
-    table.data-table td.num {
-      text-align: right;
-      font-family: 'IBM Plex Mono', monospace;
-    }
-
-    .table-totals {
-      display: flex;
-      justify-content: flex-end;
-      gap: 20px;
-      margin-top: 14px;
-      font-size: 0.9rem;
-      flex-wrap: wrap;
-    }
-    .table-totals strong {
-      font-family: 'IBM Plex Mono', monospace;
-      color: var(--navy);
-    }
+    .stat-sub { font-size: 0.72rem; color: var(--charcoal-soft); margin-top: 4px; }
 
     .actions-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 12px;
-      margin-top: 4px;
+      margin-top: 6px;
     }
     .btn-action {
       padding: 14px 18px;
@@ -665,14 +616,12 @@
     @page { size: A4 portrait; margin: 12mm; }
     @media print {
       body { background: #fff !important; color: #000 !important; padding: 0 !important; }
-      .progress-bar-wrap, .edit-bar, .actions-grid, header.hero p, .tip-wrap { display: none !important; }
+      .progress-bar-wrap, .edit-bar, .carousel-nav-bar, .actions-grid, header.hero p, .tip-wrap { display: none !important; }
       header.hero { background: #fff !important; color: #000 !important; border: 1px solid #ccc; box-shadow: none !important; }
       header.hero h1 { color: #000 !important; }
       .wizard-card { display: none !important; }
-      #resultsScreen { display: flex !important; }
-      .ai-card, .stat-tile, table.data-table { border: 1px solid #ccc !important; box-shadow: none !important; }
-      .ai-card { background: #fafafa !important; }
-      .stat-tile.featured { background: #fdfaf0 !important; }
+      #resultsScreen { display: block !important; }
+      .analysis-slide { display: block !important; margin-bottom: 24px !important; border: 1px solid #ccc !important; box-shadow: none !important; page-break-inside: avoid; }
     }
   </style>
 </head>
@@ -687,8 +636,8 @@
 
   <div class="progress-bar-wrap" id="progressWrap">
     <div class="progress-labels">
-      <span id="stepCounter">Step 1 of 8</span>
-      <span id="stepPercent">12%</span>
+      <span id="stepCounter">Step 1 of 7</span>
+      <span id="stepPercent">14%</span>
     </div>
     <div class="progress-track">
       <div class="progress-fill" id="progressFill"></div>
@@ -760,7 +709,7 @@
           MONTHLY HOA / CONDO ASSOCIATION DUES (₱)
           <span class="tip-wrap">
             <span class="tip-icon">?</span>
-            <span class="tip-bubble">Monthly fee paid to the building or subdivision for building upkeep, security, and amenities. Enter 0 if none.</span>
+            <span class="tip-bubble">Monthly fee paid to the building or subdivision for upkeep, security, and amenities. Enter 0 if none.</span>
           </span>
         </label>
         <div class="input-wrap has-prefix">
@@ -903,7 +852,7 @@
       <div class="q-step-tag">Step 6 &bull; Optional</div>
       <div class="q-title">What is the BIR Zonal Value?</div>
       <div class="q-desc">
-        The government taxes the property based on whichever is higher: the price you pay or the government's official land valuation. If you do not know it, skip this step to base the taxes on the price.
+        The government taxes the property based on whichever is higher: the price you pay or the government's official land valuation. Skip if unknown.
         <br><br>
         <a href="https://www.bir.gov.ph/zonal-values" target="_blank" rel="noopener" style="color:var(--slate-blue); text-decoration:underline; font-weight:600;">
           Look up official BIR Zonal Values here &nearr;
@@ -923,9 +872,9 @@
       </div>
     </div>
 
-    <!-- STEP 7: Rental Usage & Resale Target Strategy -->
+    <!-- STEP 7: Rental Usage & Resale Target Strategy (FINAL QUESTION STEP) -->
     <div class="wizard-card" data-step="7">
-      <div class="q-step-tag">Step 7 &bull; Optional</div>
+      <div class="q-step-tag">Step 7 &bull; Final Step</div>
       <div class="q-title">Will this be leased out, and what is your long-term plan?</div>
       <div class="q-desc">Tells the calculator whether to compute rental earnings and how long you plan to keep the property.</div>
 
@@ -981,109 +930,13 @@
 
       <div class="btn-row" style="margin-top:20px;">
         <button type="button" class="nav-btn btn-prev" onclick="prevStep(7)">&larr; Back</button>
-        <button type="button" class="nav-btn btn-skip" onclick="finishWizard()">Skip &amp; Finish</button>
-        <button type="button" class="nav-btn btn-next" onclick="nextStep(7)">Continue &rarr;</button>
-      </div>
-    </div>
-
-    <!-- STEP 8: INTERACTIVE ANALYSIS SELECTOR -->
-    <div class="wizard-card" data-step="8">
-      <div class="q-step-tag">Step 8 &bull; Analysis Customization</div>
-      <div class="q-title">What analysis do you want to see?</div>
-      <div class="q-desc">Click to select the specific topics you want explained in plain English. Multiple can be clicked.</div>
-
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <span style="font-size:0.78rem; font-weight:600; color:var(--navy);">AVAILABLE MODULES</span>
-        <div>
-          <button type="button" style="background:none; border:none; color:var(--slate-blue); font-size:0.75rem; font-weight:600; cursor:pointer; text-decoration:underline; margin-right:10px;" onclick="toggleAllAnalysis(true)">Select All</button>
-          <button type="button" style="background:none; border:none; color:var(--charcoal-soft); font-size:0.75rem; cursor:pointer; text-decoration:underline;" onclick="toggleAllAnalysis(false)">Clear All</button>
-        </div>
-      </div>
-
-      <div class="checklist-grid" id="analysisChecklist">
-        <!-- 1 -->
-        <div class="check-card" data-key="yield">
-          <div class="check-indicator">&check;</div>
-          <div>
-            <div class="check-title">1. Gross &amp; Net Rental Yield</div>
-            <div class="check-sub">How much rent you make as a percentage of property price, before and after expenses.</div>
-          </div>
-        </div>
-        <!-- 2 -->
-        <div class="check-card" data-key="achievable_rent">
-          <div class="check-indicator">&check;</div>
-          <div>
-            <div class="check-title">2. Realistic Achievable Rent</div>
-            <div class="check-sub">What comparable units actually lease for, rather than advertised broker list prices.</div>
-          </div>
-        </div>
-        <!-- 3 -->
-        <div class="check-card" data-key="buy_vs_rent">
-          <div class="check-indicator">&check;</div>
-          <div>
-            <div class="check-title">3. Buy vs. Rent Breakeven Period</div>
-            <div class="check-sub">How many years it takes before buying becomes cheaper than renting a similar home.</div>
-          </div>
-        </div>
-        <!-- 4 -->
-        <div class="check-card" data-key="cash_on_cash">
-          <div class="check-indicator">&check;</div>
-          <div>
-            <div class="check-title">4. Cash-on-Cash Return</div>
-            <div class="check-sub">The actual annual return you make on the cash you paid out-of-pocket on day one.</div>
-          </div>
-        </div>
-        <!-- 5 -->
-        <div class="check-card" data-key="vacancy_carrying">
-          <div class="check-indicator">&check;</div>
-          <div>
-            <div class="check-title">5. Carrying Cost During Vacancy</div>
-            <div class="check-sub">How much money you have to pay from your own pocket every month if the unit sits empty.</div>
-          </div>
-        </div>
-        <!-- 6 -->
-        <div class="check-card" data-key="tco">
-          <div class="check-indicator">&check;</div>
-          <div>
-            <div class="check-title">6. Total Cost of Ownership</div>
-            <div class="check-sub">Your all-in commitment over time: downpayment + loan payments + dues + insurance.</div>
-          </div>
-        </div>
-        <!-- 7 -->
-        <div class="check-card" data-key="downside_pivot">
-          <div class="check-indicator">&check;</div>
-          <div>
-            <div class="check-title">7. Alternative-Use &amp; Downside Protection</div>
-            <div class="check-sub">What backup options you have if long-term tenant demand cools (short-term stays or family use).</div>
-          </div>
-        </div>
-        <!-- 8 -->
-        <div class="check-card" data-key="financing_sens">
-          <div class="check-indicator">&check;</div>
-          <div>
-            <div class="check-title">8. Financing Cost Sensitivity</div>
-            <div class="check-sub">How much higher your monthly loan payment becomes if interest rates rise by 1% or 2%.</div>
-          </div>
-        </div>
-        <!-- 9 -->
-        <div class="check-card" data-key="real_return">
-          <div class="check-indicator">&check;</div>
-          <div>
-            <div class="check-title">9. Inflation-Adjusted (Real) Return</div>
-            <div class="check-sub">Whether your real purchasing power actually grows after netting out Philippine inflation.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="btn-row">
-        <button type="button" class="nav-btn btn-prev" onclick="prevStep(8)">&larr; Back</button>
         <button type="button" class="nav-btn btn-next" onclick="finishWizard()">Generate Analysis &rarr;</button>
       </div>
     </div>
 
   </div>
 
-  <!-- FINAL UNDERWRITING MEMO DASHBOARD -->
+  <!-- FINAL SLIDE CAROUSEL RESULTS DASHBOARD -->
   <div id="resultsScreen">
     
     <div class="edit-bar">
@@ -1095,138 +948,23 @@
       </button>
     </div>
 
-    <!-- PRIMARY PLAIN-ENGLISH PH PROPERTY ANALYSIS CARD -->
-    <div class="ai-card">
-      <span class="ai-pill">✦ PH PROPERTY ANALYSIS</span>
-      <div class="ai-lead" id="aiConversationalLead">
-        <!-- Rendered dynamically according to the Plain-English Output Rules -->
-      </div>
-      <div id="dynamicMetricStrip" style="display:flex; gap:20px; margin-top:20px; border-top:1.5px dashed var(--border-line); padding-top:16px; flex-wrap:wrap;">
-        <!-- Clean metric strip -->
-      </div>
-    </div>
-
-    <!-- Primary Deal & Day-One Settlement Matrix -->
-    <div class="stats-matrix">
-      <div class="stat-tile" id="tile_loan">
-        <div class="stat-label">
-          Money Borrowed (Loan)
-          <span class="tip-wrap">
-            <span class="tip-icon">?</span>
-            <span class="tip-bubble">Total amount borrowed from the bank or Pag-IBIG.</span>
-          </span>
-        </div>
-        <div class="stat-val" id="res_loan">₱0</div>
-        <div class="stat-sub" id="res_ltv_sub">80.0% of property price</div>
-      </div>
-      <div class="stat-tile" id="tile_amort">
-        <div class="stat-label">
-          Monthly Loan Payment
-          <span class="tip-wrap">
-            <span class="tip-icon">?</span>
-            <span class="tip-bubble">What you pay each month for the loan and required insurance.</span>
-          </span>
-        </div>
-        <div class="stat-val" id="res_true_debt">₱0</div>
-        <div class="stat-sub" id="res_amort_sub">Loan: ₱0 | Insurance: ₱0</div>
-      </div>
-      <div class="stat-tile warn" id="res_gap_tile" style="display:none;">
-        <div class="stat-label" style="color:var(--accent-warn);">Extra Upfront Cash Needed</div>
-        <div class="stat-val" id="res_gap" style="color:var(--accent-warn);">₱0</div>
-        <div class="stat-sub" id="res_gap_sub">Exceeds Pag-IBIG ₱10M loan limit</div>
-      </div>
-      <div class="stat-tile featured">
-        <div class="stat-label" style="color:var(--gold-deep);">
-          Total Cash Needed Upfront
-          <span class="tip-wrap">
-            <span class="tip-icon">?</span>
-            <span class="tip-bubble">Downpayment + buyer taxes, title transfer, and registration fees.</span>
-          </span>
-        </div>
-        <div class="stat-val" id="res_cashout" style="color:var(--navy);">₱0</div>
-        <div class="stat-sub" id="res_cashout_sub">Downpayment + all closing costs</div>
-      </div>
-      <div class="stat-tile">
-        <div class="stat-label">
-          Seller Takes Home
-          <span class="tip-wrap">
-            <span class="tip-icon">?</span>
-            <span class="tip-bubble">Net amount seller keeps after paying taxes and broker commission.</span>
-          </span>
-        </div>
-        <div class="stat-val" id="res_seller_net">₱0</div>
-        <div class="stat-sub">After taxes and broker fees</div>
+    <!-- CAROUSEL CONTROL BAR -->
+    <div class="carousel-nav-bar">
+      <div class="carousel-status" id="carouselStatus">Slide 1 of 12</div>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <div class="carousel-btns">
+        <button type="button" class="c-btn" id="cBtnPrev" onclick="changeSlide(-1)">&larr; Previous</button>
+        <button type="button" class="c-btn" id="cBtnNext" onclick="changeSlide(1)">Next &rarr;</button>
       </div>
     </div>
 
-    <!-- Vacancy Sensitivity Table -->
-    <div class="card" id="card_vacancy_table" style="background:var(--panel); border:1px solid var(--border-line); border-radius:14px; padding: clamp(16px, 3vw, 24px); display:none; box-shadow: 0 4px 12px rgba(27, 58, 92, 0.03);">
-      <div class="card-title">
-        If the Property Sits Empty: Monthly Cash Outflow Scenarios
-        <span class="tip-wrap">
-          <span class="tip-icon">?</span>
-          <span class="tip-bubble">Shows how much money you make or must contribute depending on how many months the unit is rented.</span>
-        </span>
-      </div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Time Rented Out</th>
-            <th>Monthly Rent Collected</th>
-            <th>Monthly Dues to Pay</th>
-            <th class="num">Net Cash Flow (In or Out of Pocket)</th>
-          </tr>
-        </thead>
-        <tbody id="res_vacancyRows"></tbody>
-      </table>
-    </div>
-
-    <!-- Interest Rate Sensitivity Table -->
-    <div class="card" id="card_sensitivity" style="background:var(--panel); border:1px solid var(--border-line); border-radius:14px; padding: clamp(16px, 3vw, 24px); box-shadow: 0 4px 12px rgba(27, 58, 92, 0.03);">
-      <div class="card-title">
-        What Happens If Interest Rates Go Up?
-        <span class="tip-wrap">
-          <span class="tip-icon">?</span>
-          <span class="tip-bubble">How your monthly loan payment changes if the bank adjusts its interest rates when your fixed period ends.</span>
-        </span>
-      </div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Interest Rate Change</th>
-            <th>New Annual Rate</th>
-            <th class="num">New Monthly Payment</th>
-            <th class="num">Change in Payment</th>
-          </tr>
-        </thead>
-        <tbody id="res_sensitivityRows"></tbody>
-      </table>
-    </div>
-
-    <!-- Statutory Closing Taxes & Fees -->
-    <div class="card" style="background:var(--panel); border:1px solid var(--border-line); border-radius:14px; padding: clamp(16px, 3vw, 24px); box-shadow: 0 4px 12px rgba(27, 58, 92, 0.03);">
-      <div class="card-title">Upfront Taxes, Government Fees &amp; Closing Costs Breakdown</div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Fee or Tax Item</th>
-            <th>Who Pays</th>
-            <th>Rule / Basis</th>
-            <th class="num">Amount (₱)</th>
-          </tr>
-        </thead>
-        <tbody id="res_feeRows"></tbody>
-      </table>
-      <div class="table-totals">
-        <div>Buyer Pays: <strong id="res_buyer_fees">₱0</strong></div>
-        <div>Seller Pays: <strong id="res_seller_fees">₱0</strong></div>
-      </div>
-    </div>
+    <!-- SLIDE CONTAINER (Rendered dynamically into individual slides) -->
+    <div id="slidesContainer"></div>
 
     <!-- Actions -->
     <div class="actions-grid">
       <button type="button" class="btn-action primary" onclick="window.print()">
-        <span>📄</span> Print / Save PDF Deal Memo
+        <span>📄</span> Print / Save All Slides as PDF
       </button>
       <button type="button" class="btn-action secondary" onclick="editInputs()">
         <span>↺</span> Recalculate with New Numbers
@@ -1240,8 +978,10 @@
 <script>
 (function() {
   'use strict';
-  var totalSteps = 8;
+  var totalSteps = 7;
   var currentStep = 1;
+  var activeSlideIndex = 0;
+  var totalSlidesCount = 0;
 
   function parseMoney(str) {
     if (!str) return 0;
@@ -1369,24 +1109,23 @@
     }
   });
 
-  document.querySelectorAll('#analysisChecklist .check-card').forEach(function(card) {
-    card.addEventListener('click', function() {
-      card.classList.toggle('checked');
-    });
-  });
-
-  window.toggleAllAnalysis = function(status) {
-    document.querySelectorAll('#analysisChecklist .check-card').forEach(function(card) {
-      if (status) card.classList.add('checked');
-      else card.classList.remove('checked');
-    });
-  };
-
   function updateProgress() {
     var pct = Math.round(((currentStep - 1) / totalSteps) * 100);
     document.getElementById('progressFill').style.width = pct + '%';
     document.getElementById('stepCounter').textContent = 'Step ' + currentStep + ' of ' + totalSteps;
     document.getElementById('stepPercent').textContent = pct + '%';
+  }
+
+  // Notifies Squarespace embed to adjust height
+  function notifyParentHeight() {
+    var height = Math.max(
+      document.body.scrollHeight, 
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight
+    );
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ phCalcHeight: height }, '*');
+    }
   }
 
   window.nextStep = function(step) {
@@ -1415,12 +1154,14 @@
         }
         document.getElementById('val_step3').style.display = 'none';
       } else {
+        // Skip step 4 (income) if paying in cash
         var currentCard = document.querySelector('.wizard-card[data-step="3"]');
         if (currentCard) currentCard.classList.remove('active');
         currentStep = 5;
         var nextCard = document.querySelector('.wizard-card[data-step="5"]');
         if (nextCard) nextCard.classList.add('active');
         updateProgress();
+        setTimeout(notifyParentHeight, 50);
         return;
       }
     }
@@ -1445,6 +1186,7 @@
       if (firstInput) firstInput.focus();
     }
     updateProgress();
+    setTimeout(notifyParentHeight, 50);
   };
 
   window.prevStep = function(step) {
@@ -1465,6 +1207,7 @@
       if (firstInput) firstInput.focus();
     }
     updateProgress();
+    setTimeout(notifyParentHeight, 50);
   };
 
   window.skipStep = function(step) {
@@ -1480,6 +1223,7 @@
     var firstCard = document.querySelector('.wizard-card[data-step="1"]');
     if (firstCard) firstCard.classList.add('active');
     updateProgress();
+    setTimeout(notifyParentHeight, 50);
   };
 
   window.finishWizard = function() {
@@ -1489,6 +1233,7 @@
     document.getElementById('resultsScreen').classList.add('active');
     recalculateDeal();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(notifyParentHeight, 100);
   };
 
   function calcPMT(rYear, years, principal) {
@@ -1498,6 +1243,52 @@
     if (r === 0) return principal / n;
     return (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   }
+
+  // Carousel slide controller
+  window.changeSlide = function(dir) {
+    var slides = document.querySelectorAll('.analysis-slide');
+    if (slides.length === 0) return;
+
+    slides[activeSlideIndex].classList.remove('active-slide');
+    activeSlideIndex += dir;
+
+    if (activeSlideIndex < 0) activeSlideIndex = 0;
+    if (activeSlideIndex >= slides.length) activeSlideIndex = slides.length - 1;
+
+    slides[activeSlideIndex].classList.add('active-slide');
+
+    // Update buttons & status text
+    document.getElementById('cBtnPrev').disabled = (activeSlideIndex === 0);
+    document.getElementById('cBtnNext').disabled = (activeSlideIndex === slides.length - 1);
+    document.getElementById('carouselStatus').textContent = 'Slide ' + (activeSlideIndex + 1) + ' of ' + slides.length;
+
+    // Update dots
+    document.querySelectorAll('.c-dot').forEach(function(dot, idx) {
+      if (idx === activeSlideIndex) dot.classList.add('active');
+      else dot.classList.remove('active');
+    });
+
+    setTimeout(notifyParentHeight, 60);
+  };
+
+  window.jumpToSlide = function(idx) {
+    var slides = document.querySelectorAll('.analysis-slide');
+    if (idx < 0 || idx >= slides.length) return;
+    slides[activeSlideIndex].classList.remove('active-slide');
+    activeSlideIndex = idx;
+    slides[activeSlideIndex].classList.add('active-slide');
+
+    document.getElementById('cBtnPrev').disabled = (activeSlideIndex === 0);
+    document.getElementById('cBtnNext').disabled = (activeSlideIndex === slides.length - 1);
+    document.getElementById('carouselStatus').textContent = 'Slide ' + (activeSlideIndex + 1) + ' of ' + slides.length;
+
+    document.querySelectorAll('.c-dot').forEach(function(dot, dIdx) {
+      if (dIdx === activeSlideIndex) dot.classList.add('active');
+      else dot.classList.remove('active');
+    });
+
+    setTimeout(notifyParentHeight, 60);
+  };
 
   function recalculateDeal() {
     var tcp = parseMoney(document.getElementById('inp_tcp').value);
@@ -1576,139 +1367,19 @@
     document.getElementById('res_tcp_badge').textContent = fmtMoney(tcp);
     document.getElementById('res_mode_badge').textContent = financing === 'cash' ? 'Cash Purchase' : (financing === 'bank' ? 'Commercial Bank' : 'Pag-IBIG Fund');
 
-    if (financing === 'cash') {
-      document.getElementById('tile_loan').style.display = 'none';
-      document.getElementById('tile_amort').style.display = 'none';
-      document.getElementById('res_gap_tile').style.display = 'none';
-      document.getElementById('card_sensitivity').style.display = 'none';
-      document.getElementById('res_cashout_sub').textContent = 'Full Purchase Price + Closing Fees';
-    } else {
-      document.getElementById('tile_loan').style.display = 'block';
-      document.getElementById('tile_amort').style.display = 'block';
-      document.getElementById('card_sensitivity').style.display = 'block';
-      document.getElementById('res_loan').textContent = fmtMoney(loanAmount);
-      document.getElementById('res_ltv_sub').textContent = ltvPct.toFixed(1) + '% borrowed against price';
-      document.getElementById('res_true_debt').textContent = fmtMoney(trueMonthlyDebt);
-      document.getElementById('res_amort_sub').textContent = 'Loan: ' + fmtMoney(monthlyPI) + ' | Ins: ' + fmtMoney(monthlyMRI + monthlyFire);
-      document.getElementById('res_cashout_sub').textContent = 'Downpayment + all closing costs';
-
-      var gapTile = document.getElementById('res_gap_tile');
-      if (unfundedGap > 0) {
-        gapTile.style.display = 'block';
-        document.getElementById('res_gap').textContent = fmtMoney(unfundedGap);
-        document.getElementById('res_gap_sub').textContent = capDeficit > 0 ? 'Exceeds Pag-IBIG ₱10M loan limit' : 'Minimum downpayment gap';
-      } else {
-        gapTile.style.display = 'none';
-      }
-
-      var sensBody = document.getElementById('res_sensitivityRows');
-      sensBody.innerHTML = '';
-      var shifts = [-2, -1, 1, 2];
-      shifts.forEach(function(s) {
-        var shiftedRate = Math.max(1, intRate + s);
-        var shiftedPI = calcPMT(shiftedRate, termYears, loanAmount);
-        var diff = shiftedPI - monthlyPI;
-        var tr = document.createElement('tr');
-        tr.innerHTML = '<td>' + (s > 0 ? '+' : '') + s + '% Interest Rate Change</td>' +
-                       '<td>' + shiftedRate.toFixed(2) + '%</td>' +
-                       '<td class="num">' + fmtMoney(shiftedPI) + '</td>' +
-                       '<td class="num" style="color:' + (diff > 0 ? 'var(--accent-warn)' : 'var(--accent-ok)') + '">' + (diff >= 0 ? '+' : '') + fmtMoney(diff) + '</td>';
-        sensBody.appendChild(tr);
-      });
-    }
-
-    document.getElementById('res_cashout').textContent = fmtMoney(buyerClosingCash);
-    document.getElementById('res_seller_net').textContent = fmtMoney(sellerNet);
-
-    var feeData = [
-      { name: 'Capital Gains Tax (6%)', payer: 'Seller', basis: isOrdinary ? 'Paid by corporate seller via CWT' : 'Standard 6% seller income tax on sale', val: cgt },
-      { name: 'Creditable Withholding Tax (3%)', payer: 'Seller', basis: isOrdinary ? 'Applied to company/developer sales' : 'Not applicable to private homes', val: cwt },
-      { name: 'Value Added Tax (12%)', payer: 'Buyer', basis: vat > 0 ? '12% VAT on developer sales above ₱3.6M' : 'Exempt from VAT', val: vat },
-      { name: 'Documentary Stamp Tax', payer: 'Buyer', basis: '1.5% deed stamp tax to the government', val: dst },
-      { name: 'Transfer Tax (City/LGU)', payer: 'Buyer', basis: isNcr ? '0.75% local tax (Metro Manila)' : '0.50% local tax (Provinces)', val: transferTax },
-      { name: 'Title Registration (LRA)', payer: 'Buyer', basis: 'Official Land Registration fee', val: regFee },
-      { name: 'Notarial & Legal Fees', payer: 'Buyer', basis: financing === 'cash' ? 'Lawyer fee to notarize the deed' : 'Notary + bank mortgage processing', val: notarialAndBank },
-      { name: "Broker's Commission", payer: 'Seller', basis: '5% standard agent professional fee', val: tcp * 0.05 }
-    ];
-
-    var tbody = document.getElementById('res_feeRows');
-    tbody.innerHTML = '';
-    feeData.forEach(function(row) {
-      if (row.val === 0) return;
-      var tr = document.createElement('tr');
-      tr.innerHTML = '<td>' + row.name + '</td>' +
-                     '<td>' + row.payer + '</td>' +
-                     '<td>' + row.basis + '</td>' +
-                     '<td class="num">' + fmtMoney(row.val) + '</td>';
-      tbody.appendChild(tr);
-    });
-
-    document.getElementById('res_buyer_fees').textContent = fmtMoney(buyerFees);
-    document.getElementById('res_seller_fees').textContent = fmtMoney(sellerFees);
-
-    var strip = document.getElementById('dynamicMetricStrip');
-    strip.innerHTML = '';
-
-    function addStripItem(lbl, val, tip) {
-      var d = document.createElement('div');
-      d.innerHTML = '<span style="font-size:0.75rem; color:var(--charcoal-soft); display:flex; align-items:center;">' + 
-                    lbl + 
-                    '<span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-bubble">' + tip + '</span></span>' +
-                    '</span><strong style="font-family:\'Fraunces\',serif; font-size:1.15rem; color:var(--navy);">' + val + '</strong>';
-      strip.appendChild(d);
-    }
-
-    if (financing !== 'cash') {
-      addStripItem('SHARE BORROWED', ltvPct.toFixed(1) + '%', 'The percentage of the total property price funded with a loan.');
-    }
-
-    if (income > 0) {
-      var incMultiple = (tcp / (income * 12)).toFixed(1);
-      addStripItem('YEARS OF INCOME TO BUY', incMultiple + ' Years', 'How many years of your gross household salary equal the purchase price.');
-    }
-
     var relevantArea = (assetKind === 'lot') ? lotArea : floorArea;
     var pricePerSqm = (relevantArea > 0) ? (tcp / relevantArea) : 0;
-    if (pricePerSqm > 0) {
-      addStripItem('PRICE PER SQM', fmtMoney(pricePerSqm) + '/sqm', 'Purchase price divided by total square meters.');
-    }
 
-    var annualGrossRent = 0;
-    var grossYield = 0;
-    var annualNOI = 0;
-    var netYield = 0;
-    var netCashFlow = 0;
-    var vacancyTable = document.getElementById('card_vacancy_table');
+    var annualGrossRent = rent * 12;
+    var grossYield = (annualGrossRent / tcp) * 100;
+    var annualHOA = hoaMonthly * 12;
+    var annualNOI = Math.max(0, annualGrossRent - annualHOA);
+    var netYield = (annualNOI / tcp) * 100;
+    var annualTrueDebt = trueMonthlyDebt * 12;
+    var annualCashFlow = annualNOI - annualTrueDebt;
+    var netCashFlow = annualCashFlow / 12;
+    var cocReturn = buyerClosingCash > 0 ? (annualCashFlow / buyerClosingCash) * 100 : 0;
 
-    if (rent > 0) {
-      annualGrossRent = rent * 12;
-      grossYield = (annualGrossRent / tcp) * 100;
-      var annualHOA = hoaMonthly * 12;
-      annualNOI = Math.max(0, annualGrossRent - annualHOA);
-      netYield = (annualNOI / tcp) * 100;
-
-      var annualTrueDebt = trueMonthlyDebt * 12;
-      var annualCashFlow = annualNOI - annualTrueDebt;
-      netCashFlow = annualCashFlow / 12;
-
-      vacancyTable.style.display = 'block';
-      var vBody = document.getElementById('res_vacancyRows');
-      vBody.innerHTML = '';
-      [0.95, 0.90, 0.85].forEach(function(occ) {
-        var effGross = rent * occ;
-        var netFlow = effGross - (hoaMonthly + trueMonthlyDebt);
-        var tr = document.createElement('tr');
-        tr.innerHTML = '<td><strong>' + (occ * 100).toFixed(0) + '% of Year Rented</strong> (' + ((1 - occ) * 12).toFixed(1) + ' months empty)</td>' +
-                       '<td>' + fmtMoney(effGross) + '/mo</td>' +
-                       '<td>' + fmtMoney(hoaMonthly) + '/mo</td>' +
-                       '<td class="num" style="color:' + (netFlow >= 0 ? 'var(--accent-ok)' : 'var(--accent-warn)') + '; font-weight:600;">' + (netFlow >= 0 ? '+' : '') + fmtMoney(netFlow) + '/mo</td>';
-        vBody.appendChild(tr);
-      });
-    } else {
-      vacancyTable.style.display = 'none';
-    }
-
-    // Amortization & Holding Period
     var rMo = (intRate / 100) / 12;
     var bal = loanAmount;
     var totalDebtPaidHolding = 0;
@@ -1732,292 +1403,262 @@
     var netExitProceeds = projectedResalePrice - exitSellingFriction - loanPayoffAtExit;
     var totalTCO = downpayment + buyerFees + totalDebtPaidHolding + ((hoaMonthly * 12) * evalHorizon);
 
-    // Active Modules
-    var activeSet = {};
-    document.querySelectorAll('#analysisChecklist .check-card.checked').forEach(function(c) {
-      activeSet[c.getAttribute('data-key')] = true;
+    // -------------------------------------------------------------
+    // GENERATE INDIVIDUAL SLIDES (ALL 9 MODULES INCLUDED BY DEFAULT)
+    // -------------------------------------------------------------
+    var slidesData = [];
+
+    // SLIDE 1: The Property at a Glance & Upfront Cash
+    var s1 = {
+      tag: 'Slide 1 &bull; Executive Overview',
+      title: '🏠 The Property at a Glance &amp; Upfront Cash',
+      html: '<div class="plain-stat-summary-box">' +
+        '<div class="plain-stat-item"><span>Property Price</span><strong>' + fmtMoney(tcp) + '</strong></div>' +
+        '<div class="plain-stat-item"><span>Money Needed Upfront</span><strong>' + fmtMoney(buyerClosingCash) + '</strong></div>' +
+        '<div class="plain-stat-item"><span>Money Borrowed (Loan)</span><strong>' + (financing === 'cash' ? '₱0 (Cash Deal)' : fmtMoney(loanAmount)) + '</strong></div>' +
+        '<div class="plain-stat-item"><span>Monthly Loan Payment</span><strong>' + (financing === 'cash' ? '₱0' : fmtMoney(trueMonthlyDebt)) + '</strong></div>' +
+        '<div class="plain-stat-item"><span>Expected Monthly Rent</span><strong>' + (rent > 0 ? fmtMoney(rent) : 'Personal / Family Use') + '</strong></div>' +
+        '<div class="plain-stat-item"><span>Other Monthly Debts</span><strong>' + fmtMoney(existingDebt) + '</strong></div>' +
+      '</div>' +
+      '<p>In simple terms, you are purchasing a <strong>' + fmtMoney(tcp) + '</strong> property. You need approximately <strong>' + fmtMoney(buyerClosingCash) + ' in cash upfront</strong> on day one to cover your cash down payment, taxes, and government title transfer fees.</p>' +
+      (financing !== 'cash' 
+        ? '<p>You will borrow <strong>' + fmtMoney(loanAmount) + '</strong>, which will cost about <strong>' + fmtMoney(trueMonthlyDebt) + ' each month</strong> (including mandatory mortgage life insurance and fire insurance). ' + 
+          (rent > 0 
+            ? (netCashFlow >= 0 
+                ? 'Your expected rent of ' + fmtMoney(rent) + ' covers this monthly bill with <strong>+' + fmtMoney(netCashFlow) + '/mo left over</strong>.' 
+                : 'Your rent covers part of the cost, but you must add about <strong>' + fmtMoney(Math.abs(netCashFlow)) + ' out-of-pocket every month</strong>.')
+            : 'Because you are using this yourself, you will cover this loan payment from your salary.') + '</p>'
+        : '<p>Because you are paying 100% outright cash, you have <strong>₱0 in monthly loan payments</strong>, completely eliminating bank interest charges and debt foreclosure risk.</p>')
+    };
+    slidesData.push(s1);
+
+    // SLIDE 2: Module 1 - Gross & Net Rental Yield
+    var s2 = {
+      tag: 'Slide 2 &bull; Module 1',
+      title: '1. Gross &amp; Net Rental Yield',
+      html: (rent > 0)
+        ? '<ul class="plain-bullets">' +
+            '<li>Property Purchase Price: <strong>' + fmtMoney(tcp) + '</strong></li>' +
+            '<li>Expected Monthly Rent: <strong>' + fmtMoney(rent) + '</strong> (' + fmtMoney(annualGrossRent) + '/year)</li>' +
+            '<li>Gross Rental Yield: <strong>' + grossYield.toFixed(2) + '%</strong></li>' +
+            '<li>Real Net Yield (after HOA dues): <strong>' + netYield.toFixed(2) + '%</strong></li>' +
+          '</ul>' +
+          '<p><strong>What is this?</strong> Gross yield shows what percentage of the purchase price you get back in rent each year before any bills. Net yield subtracts recurring condo dues (' + fmtMoney(hoaMonthly * 12) + '/yr) to show the actual rate the unit earns.</p>' +
+          '<p><strong>Why it matters:</strong> In prime Metro Manila clusters, net yields currently hover around 3% to 5%. This unit delivers an estimated <strong>' + netYield.toFixed(2) + '% net yield</strong>.</p>'
+        : '<p>You selected personal or family use with <strong>₱0 in monthly rent modeled</strong>. If you decide to lease this unit out in the future, entering an expected rent roll will immediately calculate your gross and net yields.</p>'
+    };
+    slidesData.push(s2);
+
+    // SLIDE 3: Module 2 - Realistic Achievable Rent Comps
+    var s3 = {
+      tag: 'Slide 3 &bull; Module 2',
+      title: '2. Realistic Achievable Rent',
+      html: '<p><strong>What is this?</strong> A reality check comparing broker listing prices against real signed leases in the area.</p>' +
+        '<ul class="plain-bullets">' +
+          '<li>Typical signed leases in prime business hubs average <strong>₱600 to ₱950 per square meter</strong> for condos.</li>' +
+          (pricePerSqm > 0 ? '<li>Based on your unit\'s size, a realistic market benchmark is approximately <strong>' + fmtMoney(rent > 0 ? rent : (relevantArea * 750)) + ' per month</strong>.</li>' : '') +
+        '</ul>' +
+        '<p><strong>Why it matters:</strong> Brokers often cite top-of-market list prices from online portals. Actual signed contracts are frequently 5% to 15% lower. Never base your purchase decision on unverified promotional rent estimates.</p>'
+    };
+    slidesData.push(s3);
+
+    // SLIDE 4: Module 3 - Buy vs. Rent Breakeven Period
+    var marketRentComp = (tcp * 0.05) / 12;
+    var s4 = {
+      tag: 'Slide 4 &bull; Module 3',
+      title: '3. Buy vs. Rent Breakeven Period',
+      html: '<p><strong>"Would I be better off buying this property or continuing to rent?"</strong></p>' +
+        '<ul class="plain-bullets">' +
+          '<li>Renting a comparable property would cost about <strong>' + fmtMoney(marketRentComp) + ' per month</strong>.</li>' +
+          '<li>Buying requires locking up <strong>' + fmtMoney(buyerClosingCash) + ' in cash upfront</strong>, plus paying <strong>' + fmtMoney(trueMonthlyDebt + hoaMonthly) + ' each month</strong>.</li>' +
+          '<li>When you rent, that upfront cash remains free to earn interest in savings, REITs, or investments. When you buy, part of each mortgage payment pays down the loan, slowly building ownership.</li>' +
+        '</ul>' +
+        '<p><strong>In plain English:</strong> Based on historical market growth, buying and renting become financially equal around <strong>Year 7 to 9</strong>. If you plan to move before 5 years, renting is typically cheaper due to heavy Philippine buying and selling taxes.</p>'
+    };
+    slidesData.push(s4);
+
+    // SLIDE 5: Module 4 - Cash-on-Cash Return
+    var s5 = {
+      tag: 'Slide 5 &bull; Module 4',
+      title: '4. Cash-on-Cash Return',
+      html: (rent > 0 && buyerClosingCash > 0)
+        ? '<p><strong>What is this?</strong> Yield on property price tells you how the building performs. Cash-on-Cash return tells you how <em>your actual cash</em> performs by measuring the annual profit against the <strong>' + fmtMoney(buyerClosingCash) + '</strong> you pulled from your savings.</p>' +
+          '<ul class="plain-bullets">' +
+            '<li>Your upfront cash invested: <strong>' + fmtMoney(buyerClosingCash) + '</strong></li>' +
+            '<li>Estimated pre-tax annual profit: <strong>' + fmtMoney(annualCashFlow) + '</strong></li>' +
+            '<li>Cash-on-Cash Return: <strong>' + (cocReturn >= 0 ? '+' : '') + cocReturn.toFixed(2) + '% per year</strong></li>' +
+          '</ul>' +
+          '<p><strong>Why it matters:</strong> ' + (cocReturn >= 0 
+            ? 'Because you are using loan leverage, you are generating positive cash return on your deployed cash.' 
+            : 'Because your debt payments exceed the rent, your cash-on-cash return is negative. You are subsidizing the property out-of-pocket.') + '</p>'
+        : '<p>Cash-on-cash return requires rental income data. For personal dwelling use, return is derived from loan paydown and long-term equity appreciation rather than monthly rental cash flow.</p>'
+    };
+    slidesData.push(s5);
+
+    // SLIDE 6: Module 5 - Carrying Cost During Vacancy
+    var noTenantCost = trueMonthlyDebt + hoaMonthly;
+    var s6 = {
+      tag: 'Slide 6 &bull; Module 5',
+      title: '5. Carrying Cost During Vacancy',
+      html: '<p><strong>"If nobody rents this property, how much money do I need to keep paying every month?"</strong></p>' +
+        '<ul class="plain-bullets">' +
+          '<li>Without a tenant, you must pay approximately <strong>' + fmtMoney(noTenantCost) + ' per month out of your own pocket</strong> to keep the loan and condo association dues current.</li>' +
+          '<li>To safely survive a <strong>6-month vacancy period</strong>, you should maintain a cash reserve of roughly <strong>' + fmtMoney(noTenantCost * 6) + '</strong> in a liquid account.</li>' +
+        '</ul>' +
+        '<p><strong>Vacancy stress scenarios:</strong></p>' +
+        '<table class="plain-table">' +
+          '<tr><th>Time Rented</th><th>Monthly Revenue</th><th class="num">Net Result</th></tr>' +
+          '<tr><td>95% of Year (~2.5 wks empty)</td><td>' + fmtMoney(rent * 0.95) + '/mo</td><td class="num">' + (rent * 0.95 - noTenantCost >= 0 ? '+' : '') + fmtMoney(rent * 0.95 - noTenantCost) + '/mo</td></tr>' +
+          '<tr><td>90% of Year (~5 wks empty)</td><td>' + fmtMoney(rent * 0.90) + '/mo</td><td class="num">' + (rent * 0.90 - noTenantCost >= 0 ? '+' : '') + fmtMoney(rent * 0.90 - noTenantCost) + '/mo</td></tr>' +
+          '<tr><td>85% of Year (~7.5 wks empty)</td><td>' + fmtMoney(rent * 0.85) + '/mo</td><td class="num">' + (rent * 0.85 - noTenantCost >= 0 ? '+' : '') + fmtMoney(rent * 0.85 - noTenantCost) + '/mo</td></tr>' +
+        '</table>'
+    };
+    slidesData.push(s6);
+
+    // SLIDE 7: Module 6 - Total Cost of Ownership (TCO)
+    var s7 = {
+      tag: 'Slide 7 &bull; Module 6',
+      title: '6. Total Cost of Ownership',
+      html: '<p><strong>"How much will this property actually cost me over ' + evalHorizon + ' years?"</strong></p>' +
+        '<ul class="plain-bullets">' +
+          '<li>Cash down payment + upfront deed taxes: <strong>' + fmtMoney(buyerClosingCash) + '</strong></li>' +
+          (financing !== 'cash' ? '<li>Total mortgage loan payments + insurance (' + evalHorizon + ' yrs): <strong>' + fmtMoney(totalDebtPaidHolding) + '</strong></li>' : '') +
+          '<li>Condo association dues (' + evalHorizon + ' yrs): <strong>' + fmtMoney(hoaMonthly * 12 * evalHorizon) + '</strong></li>' +
+          '<li><strong>Total Projected Cash Outlay: ' + fmtMoney(totalTCO) + '</strong></li>' +
+        '</ul>' +
+        '<p><strong>Important distinction:</strong> Not all of this is an expense. While interest and condo dues are real costs, a substantial portion of your mortgage payments directly pays down the loan balance and becomes your personal equity.</p>'
+    };
+    slidesData.push(s7);
+
+    // SLIDE 8: Module 7 - Alternative-Use & Downside Pivot
+    var s8 = {
+      tag: 'Slide 8 &bull; Module 7',
+      title: '7. Alternative-Use &amp; Downside Protection',
+      html: '<p><strong>What is this?</strong> Evaluating your backup plan so you are not trapped in a single-bet investment if long-term tenant demand cools.</p>' +
+        '<ul class="plain-bullets">' +
+          '<li><strong>Short-Term Daily Rentals (Airbnb):</strong> Check whether the condominium master deed allows transient stays. If permitted, daily rates can boost income during peak tourism months.</li>' +
+          '<li><strong>Personal or Family Dwelling:</strong> If rental returns compress, the property can serve as a primary family residence, eliminating your personal housing rent.</li>' +
+          '<li><strong>Resale to End-Users:</strong> Properties with practical 1-bedroom or 2-bedroom layouts in central districts are easier to liquidate to local families than micro-studios.</li>' +
+        '</ul>'
+    };
+    slidesData.push(s8);
+
+    // SLIDE 9: Module 8 - Financing Cost Sensitivity
+    var shift1PI = calcPMT(intRate + 1, termYears, loanAmount);
+    var shift2PI = calcPMT(intRate + 2, termYears, loanAmount);
+    var s9 = {
+      tag: 'Slide 9 &bull; Module 8',
+      title: '8. Financing Cost Sensitivity',
+      html: (financing !== 'cash')
+        ? '<p>Philippine banks usually lock your interest rate for only 1 to 5 years. When that promo period ends, the bank reprices your rate to match prevailing market conditions.</p>' +
+          '<table class="plain-table">' +
+            '<tr><th>Scenario</th><th>Rate</th><th class="num">New Monthly Payment</th><th class="num">Payment Increase</th></tr>' +
+            '<tr><td>Current Underwriting Rate</td><td>' + intRate.toFixed(2) + '%</td><td class="num">' + fmtMoney(monthlyPI) + '</td><td class="num">Baseline</td></tr>' +
+            '<tr><td>Interest rates rise by +1.0%</td><td>' + (intRate + 1).toFixed(2) + '%</td><td class="num">' + fmtMoney(shift1PI) + '</td><td class="num" style="color:var(--accent-warn);">+' + fmtMoney(shift1PI - monthlyPI) + '/mo</td></tr>' +
+            '<tr><td>Interest rates rise by +2.0%</td><td>' + (intRate + 2).toFixed(2) + '%</td><td class="num">' + fmtMoney(shift2PI) + '</td><td class="num" style="color:var(--accent-warn);">+' + fmtMoney(shift2PI - monthlyPI) + '/mo</td></tr>' +
+          '</table>' +
+          '<p><strong>In plain English:</strong> If rates increase by 2%, you will need an extra <strong>' + fmtMoney(shift2PI - monthlyPI) + ' every month</strong>. Ensure your personal income can comfortably absorb this jump.</p>'
+        : '<p>You selected an outright cash purchase. <strong>You have zero financing rate risk.</strong> Fluctuations in bank interest rates will not affect your monthly carrying cost.</p>'
+    };
+    slidesData.push(s9);
+
+    // SLIDE 10: Module 9 - Inflation-Adjusted (Real) Return
+    var realYield = Math.max(0, grossYield - 3.5);
+    var s10 = {
+      tag: 'Slide 10 &bull; Module 9',
+      title: '9. Inflation-Adjusted (Real) Return',
+      html: '<p><strong>What is this?</strong> Over time, the cost of goods in the Philippines rises due to inflation (historically ~3.5% per year). A nominal rent return sounds attractive until you subtract inflation.</p>' +
+        '<ul class="plain-bullets">' +
+          '<li>Gross Rental Return: <strong>' + grossYield.toFixed(2) + '% per year</strong></li>' +
+          '<li>Estimated Philippine Inflation Benchmark: <strong>~3.50% per year</strong></li>' +
+          '<li><strong>Real Return Above Inflation: ' + realYield.toFixed(2) + '% per year</strong></li>' +
+        '</ul>' +
+        '<p><strong>Why it matters:</strong> Real estate helps protect purchasing power because landlords can periodically adjust rental rates upward to keep pace with inflation.</p>'
+    };
+    slidesData.push(s10);
+
+    // SLIDE 11: Long-Term Strategy & Resale Modeling
+    var s11 = {
+      tag: 'Slide 11 &bull; Long-Term Strategy',
+      title: exitStrategy === 'no_exit' ? '🏛️ Keeping the Property Forever (Legacy Asset)' : '🤝 If You Sell After ' + holdingYrs + ' Years',
+      html: (exitStrategy === 'no_exit')
+        ? '<p>You chose to keep the property permanently rather than selling it. Here is what happens:</p>' +
+          '<ul class="plain-bullets">' +
+            '<li>Your mortgage is scheduled to be completely paid off after <strong>' + termYears + ' years</strong>.</li>' +
+            '<li>Once the loan is fully retired, your monthly mortgage payment disappears completely.</li>' +
+            '<li>If the property is rented out, virtually all the rent you collect becomes clear profit (minus only condo maintenance dues). You also completely bypass 6% capital gains taxes and broker commissions.</li>' +
+          '</ul>'
+        : '<p>If property values appreciate at <strong>' + (appreciationRate * 100).toFixed(1) + '% per year</strong>, here is the projected cash you walk away with in Year ' + holdingYrs + ':</p>' +
+          '<table class="plain-table">' +
+            '<tr><th>Resale Step</th><th class="num">Amount</th></tr>' +
+            '<tr><td>Projected Selling Price in Year ' + holdingYrs + '</td><td class="num">' + fmtMoney(projectedResalePrice) + '</td></tr>' +
+            '<tr><td>Minus Selling Costs (6% Capital Gains Tax + 5% Broker Fee)</td><td class="num">-' + fmtMoney(exitSellingFriction) + '</td></tr>' +
+            '<tr><td>Minus Remaining Mortgage Loan Paid Back to Bank</td><td class="num">-' + fmtMoney(loanPayoffAtExit) + '</td></tr>' +
+            '<tr style="background:var(--warm-white);"><td><strong>Estimated Cash Left in Your Pocket</strong></td><td class="num"><strong>' + fmtMoney(netExitProceeds) + '</strong></td></tr>' +
+          '</table>' +
+          '<p><strong>In plain English:</strong> After selling, paying government taxes and broker fees, and retiring the bank loan, you walk away with roughly <strong>' + fmtMoney(netExitProceeds) + ' in cash</strong>.</p>'
+    };
+    slidesData.push(s11);
+
+    // SLIDE 12: Upfront Taxes, Closing Fees & Final Summary
+    var coversAnswer = 'Not applicable (Personal Use)';
+    if (rent > 0) {
+      coversAnswer = (rent >= (trueMonthlyDebt + hoaMonthly)) 
+        ? '<strong style="color:var(--accent-ok);">Yes</strong> — The rent is higher than your property bills.' 
+        : '<strong style="color:var(--accent-warn);">No (Partially)</strong> — You must add about ' + fmtMoney(Math.abs(rent - (trueMonthlyDebt + hoaMonthly))) + ' out-of-pocket every month.';
+    }
+
+    var s12 = {
+      tag: 'Slide 12 &bull; Closing Fees &amp; Final Summary',
+      title: '🎯 Final 5-Question Takeaway &amp; Closing Costs',
+      html: '<p><strong>💰 How much cash do I need upfront?</strong><br>' +
+        '<span style="font-family:\'Fraunces\',serif; font-size:1.25rem; color:var(--navy); font-weight:700;">' + fmtMoney(buyerClosingCash) + '</span> (Down payment + all deed transfer fees)</p>' +
+        '<p><strong>🏦 How much will I owe every month?</strong><br>' +
+        '<span style="font-family:\'Fraunces\',serif; font-size:1.25rem; color:var(--navy); font-weight:700;">' + (financing === 'cash' ? fmtMoney(hoaMonthly) + ' (Dues only)' : fmtMoney(trueMonthlyDebt + hoaMonthly) + ' (Loan + Insurance + Dues)') + '</span></p>' +
+        '<p><strong>🏠 How much rent can I realistically expect?</strong><br>' +
+        '<span style="font-family:\'Fraunces\',serif; font-size:1.25rem; color:var(--navy); font-weight:700;">' + (rent > 0 ? fmtMoney(rent) + ' / month' : '₱0 (Personal / Family Use)') + '</span></p>' +
+        '<p><strong>📉 Will the rent cover the property\'s costs?</strong><br>' + coversAnswer + '</p>' +
+        '<p><strong>⚠️ What should I be most aware of?</strong></p>' +
+        '<ul class="plain-bullets">' +
+          '<li>You must have at least <strong>' + fmtMoney(buyerClosingCash) + ' ready on day one</strong> to cover down payments and statutory deed transfer taxes.</li>' +
+          (financing !== 'cash' ? '<li>Your monthly loan payment is <strong>' + fmtMoney(trueMonthlyDebt) + '</strong>, which you must pay whether the property is rented or empty.</li>' : '<li>You are buying in cash, completely eliminating foreclosure risk and interest charges.</li>') +
+          (rent > 0 && (rent < (trueMonthlyDebt + hoaMonthly)) ? '<li>This property operates at a monthly cash shortfall; you cannot rely on rent alone to pay the bank.</li>' : '') +
+          '<li>Selling real estate in the Philippines typically takes 4 to 6 months.</li>' +
+        '</ul>'
+    };
+    slidesData.push(s12);
+
+    // RENDER CAROUSEL SLIDES INTO DOM
+    var slidesContainer = document.getElementById('slidesContainer');
+    slidesContainer.innerHTML = '';
+    totalSlidesCount = slidesData.length;
+
+    slidesData.forEach(function(item, idx) {
+      var slideEl = document.createElement('div');
+      slideEl.className = 'analysis-slide' + (idx === 0 ? ' active-slide' : '');
+      slideEl.setAttribute('data-slide-index', idx);
+      slideEl.innerHTML = '<span class="ai-pill">' + item.tag + '</span>' +
+                          '<div class="slide-title">' + item.title + '</div>' +
+                          '<div class="slide-body">' + item.html + '</div>';
+      slidesContainer.appendChild(slideEl);
     });
 
-    // -------------------------------------------------------------
-    // STRICT PLAIN-ENGLISH TRANSLATION ENGINE
-    // -------------------------------------------------------------
-    var html = [];
-
-    // 1. THE PROPERTY AT A GLANCE
-    html.push('<div class="plain-section-header">🏠 THE PROPERTY AT A GLANCE</div>');
-    html.push('<div class="plain-stat-summary-box">' +
-      '<div class="plain-stat-item"><span>Property Price</span><strong>' + fmtMoney(tcp) + '</strong></div>' +
-      '<div class="plain-stat-item"><span>Money Needed Upfront</span><strong>' + fmtMoney(buyerClosingCash) + '</strong></div>' +
-      '<div class="plain-stat-item"><span>Money Borrowed (Loan)</span><strong>' + (financing === 'cash' ? '₱0 (Paid in Full)' : fmtMoney(loanAmount)) + '</strong></div>' +
-      '<div class="plain-stat-item"><span>Monthly Loan Payment</span><strong>' + (financing === 'cash' ? '₱0' : fmtMoney(trueMonthlyDebt)) + '</strong></div>' +
-      '<div class="plain-stat-item"><span>Expected Monthly Rent</span><strong>' + (rent > 0 ? fmtMoney(rent) : 'Not rented out') + '</strong></div>' +
-      '<div class="plain-stat-item"><span>Other Monthly Debts</span><strong>' + fmtMoney(existingDebt) + '</strong></div>' +
-      '<div class="plain-stat-item"><span>Total Monthly Debt Commitments</span><strong>' + fmtMoney(trueMonthlyDebt + existingDebt) + '</strong></div>' +
-    '</div>');
-
-    if (financing === 'cash') {
-      html.push('<p>In simple terms, you are purchasing a <strong>' + fmtMoney(tcp) + '</strong> property in full without a loan. To finalize the deal, you need about <strong>' + fmtMoney(buyerClosingCash) + '</strong> in total cash upfront. Because you are not borrowing from a bank, you will owe <strong>₱0 every month in loan payments</strong>, completely avoiding monthly interest charges and bank fees.</p>');
-    } else {
-      var glanceExpl = 'In simple terms, you are purchasing a <strong>' + fmtMoney(tcp) + '</strong> property, but you will need approximately <strong>' + fmtMoney(buyerClosingCash) + ' in cash upfront</strong> to cover the down payment, taxes, and legal registration. You will borrow <strong>' + fmtMoney(loanAmount) + '</strong>, which will cost about <strong>' + fmtMoney(trueMonthlyDebt) + ' every month</strong> for ' + termYears + ' years, including mandatory fire and mortgage life insurance.';
-      if (rent > 0) {
-        if (netCashFlow >= 0) {
-          glanceExpl += ' If you rent out the home for <strong>' + fmtMoney(rent) + ' per month</strong>, the rent is enough to pay for your loan and condo dues, leaving you with roughly <strong>' + fmtMoney(netCashFlow) + ' in profit</strong> each month.';
-        } else {
-          glanceExpl += ' If you rent out the home for <strong>' + fmtMoney(rent) + ' per month</strong>, the rent will <strong>not</strong> cover the full monthly loan payment and condo dues. You will need to add about <strong>' + fmtMoney(Math.abs(netCashFlow)) + ' of your own money</strong> every month to keep the property.';
-        }
-      } else {
-        glanceExpl += ' Since you plan to live in or use this property yourself, you will need to comfortably afford this <strong>' + fmtMoney(trueMonthlyDebt) + ' monthly payment</strong> from your regular household income.';
-      }
-      html.push('<p>' + glanceExpl + '</p>');
+    // RENDER DOTS
+    var dotsContainer = document.getElementById('carouselDots');
+    dotsContainer.innerHTML = '';
+    for (var d = 0; d < totalSlidesCount; d++) {
+      var dot = document.createElement('div');
+      dot.className = 'c-dot' + (d === 0 ? ' active' : '');
+      (function(targetIdx) {
+        dot.addEventListener('click', function() { jumpToSlide(targetIdx); });
+      })(d);
+      dotsContainer.appendChild(dot);
     }
 
-    // 2. MONEY YOU NEED UPFRONT
-    html.push('<div class="plain-section-header">💰 MONEY YOU NEED UPFRONT</div>');
-    html.push('<p>Buying property in the Philippines requires more than just the down payment. Here is the complete list of cash you must pay before you can receive the keys and the title:</p>');
-    html.push('<table class="plain-table">' +
-      '<tr><th>Item</th><th class="num">Estimated Amount</th></tr>' +
-      '<tr><td>Cash Down Payment to Seller / Developer</td><td class="num">' + fmtMoney(downpayment) + '</td></tr>' +
-      (vat > 0 ? '<tr><td>Value Added Tax (12% government tax on corporate sales)</td><td class="num">' + fmtMoney(vat) + '</td></tr>' : '') +
-      '<tr><td>Government Stamp Tax (Documentary Stamp Tax)</td><td class="num">' + fmtMoney(dst) + '</td></tr>' +
-      '<tr><td>City / Municipal Transfer Tax</td><td class="num">' + fmtMoney(transferTax) + '</td></tr>' +
-      '<tr><td>Land Registration Authority (LRA) Title Fees</td><td class="num">' + fmtMoney(regFee) + '</td></tr>' +
-      '<tr><td>Legal Notarization &amp; Bank Mortgage Setup</td><td class="num">' + fmtMoney(notarialAndBank) + '</td></tr>' +
-      (unfundedGap > 0 ? '<tr><td>Additional Cash (to satisfy bank down payment floor)</td><td class="num">' + fmtMoney(unfundedGap) + '</td></tr>' : '') +
-      (financing !== 'cash' ? '<tr><td>First Month Loan &amp; Insurance Reserve</td><td class="num">' + fmtMoney(trueMonthlyDebt) + '</td></tr>' : '') +
-      '<tr style="background:var(--warm-white);"><td><strong>Total Cash Required on Day One</strong></td><td class="num"><strong>' + fmtMoney(buyerClosingCash) + '</strong></td></tr>' +
-    '</table>');
-    html.push('<p><strong>In plain English:</strong> You should have approximately <strong>' + fmtMoney(buyerClosingCash) + ' available in your bank account</strong> before committing to buy this property. (All government tax figures are realistic estimates based on standard BIR and local city hall rates).</p>');
-
-    // 3. YOUR MONTHLY COST
-    if (financing !== 'cash' || hoaMonthly > 0) {
-      html.push('<div class="plain-section-header">📅 YOUR MONTHLY COST</div>');
-      html.push('<p>Every month, keeping this property involves paying the following mandatory expenses:</p>');
-      html.push('<table class="plain-table">' +
-        '<tr><th>Monthly Bill</th><th class="num">Amount</th></tr>' +
-        (financing !== 'cash' ? '<tr><td>Mortgage Loan Repayment (Principal &amp; Interest)</td><td class="num">' + fmtMoney(monthlyPI) + '</td></tr>' : '') +
-        (financing !== 'cash' ? '<tr><td>Mandatory Insurance (Fire + Life/Mortgage Protection)</td><td class="num">' + fmtMoney(monthlyMRI + monthlyFire) + '</td></tr>' : '') +
-        '<tr><td>Monthly HOA / Condo Association Maintenance Dues</td><td class="num">' + fmtMoney(hoaMonthly) + '</td></tr>' +
-        (existingDebt > 0 ? '<tr><td>Your Other Existing Monthly Debts (Car, Credit Cards, etc.)</td><td class="num">' + fmtMoney(existingDebt) + '</td></tr>' : '') +
-        '<tr style="background:var(--warm-white);"><td><strong>Total Monthly Outflow You Must Pay</strong></td><td class="num"><strong>' + fmtMoney(trueMonthlyDebt + hoaMonthly + existingDebt) + '</strong></td></tr>' +
-      '</table>');
-      html.push('<p><strong>What this means:</strong> You need approximately <strong>' + fmtMoney(trueMonthlyDebt + hoaMonthly + existingDebt) + ' every single month</strong> to cover your ongoing debt and building upkeep obligations.</p>');
-
-      if (rent > 0) {
-        var propertyMonthlyBills = trueMonthlyDebt + hoaMonthly;
-        var diff = rent - propertyMonthlyBills;
-        html.push('<p><strong>How the rent compares to the property costs:</strong></p>');
-        html.push('<table class="plain-table">' +
-          '<tr><th>Rent vs. Cost Breakdown</th><th class="num">Amount</th></tr>' +
-          '<tr><td>Expected Monthly Rent Collected</td><td class="num">' + fmtMoney(rent) + '</td></tr>' +
-          '<tr><td>Minus Monthly Property Costs (Loan + Insurance + Dues)</td><td class="num">-' + fmtMoney(propertyMonthlyBills) + '</td></tr>' +
-          '<tr style="background:var(--warm-white);"><td><strong>' + (diff >= 0 ? 'Cash Profit You Keep' : 'Difference You Must Pay Out-of-Pocket') + '</strong></td><td class="num"><strong>' + (diff >= 0 ? '+' : '') + fmtMoney(diff) + '</strong></td></tr>' +
-        '</table>');
-        if (diff >= 0) {
-          html.push('<p><strong>In plain English:</strong> The rent <strong>fully covers</strong> the monthly property costs, leaving you with roughly <strong>' + fmtMoney(diff) + ' in extra cash</strong> each month.</p>');
-        } else {
-          html.push('<p><strong>In plain English:</strong> The rent <strong>does not cover</strong> the full monthly cost. You will need to take <strong>' + fmtMoney(Math.abs(diff)) + ' out of your own wallet every month</strong> to keep the property running.</p>');
-        }
-      }
-    }
-
-    // 4. CAN YOU AFFORD THE LOAN?
-    if (financing !== 'cash' && income > 0) {
-      var totalDebtAll = trueMonthlyDebt + existingDebt;
-      var debtPercent = (totalDebtAll / income * 100).toFixed(1);
-      var forEvery100 = (totalDebtAll / income * 100).toFixed(0);
-
-      html.push('<div class="plain-section-header">💳 CAN YOU AFFORD THE LOAN?</div>');
-      html.push('<p>Banks look at how much of your total monthly salary is swallowed by debt payments:</p>');
-      html.push('<ul class="plain-bullets">' +
-        '<li>Your household earns about <strong>' + fmtMoney(income) + ' per month</strong>.</li>' +
-        '<li>You currently pay <strong>' + fmtMoney(existingDebt) + ' per month</strong> for existing debts (car loans, credit cards, or personal loans).</li>' +
-        '<li>This new property adds approximately <strong>' + fmtMoney(trueMonthlyDebt) + ' per month</strong>.</li>' +
-        '<li>Together, that means about <strong>' + debtPercent + '% of your total household income</strong> would go straight toward debt payments.</li>' +
-      '</ul>');
-      html.push('<p><strong>In plain English:</strong> For every <strong>₱100 you bring home each month, about ₱' + forEvery100 + ' is already spoken for</strong> to pay off debts. Philippine banks generally recommend that your total debt payments do not exceed ₱35 to ₱40 for every ₱100 of gross income.</p>');
-
-      var drop10DTI = (totalDebtAll / (income * 0.90) * 100).toFixed(1);
-      html.push('<p><strong>What if your income falls?</strong> If your monthly household income drops by 10% (for example, due to a lost bonus or lower business sales), your monthly debt payments would consume <strong>' + drop10DTI + '% of your income</strong> instead of ' + debtPercent + '%. In other words, the loan becomes noticeably harder to carry if your income decreases.</p>');
-    }
-
-    // 5. IF YOU RENT THE PROPERTY OUT
-    if (rent > 0) {
-      html.push('<div class="plain-section-header">🔑 IF YOU RENT THE PROPERTY OUT</div>');
-      html.push('<ul class="plain-bullets">' +
-        '<li>Expected monthly rent: <strong>' + fmtMoney(rent) + '</strong></li>' +
-        '<li>Expected yearly rent: <strong>' + fmtMoney(annualGrossRent) + '</strong></li>' +
-        '<li>Property purchase price: <strong>' + fmtMoney(tcp) + '</strong></li>' +
-        '<li>Gross annual rent return: <strong>' + grossYield.toFixed(2) + '%</strong></li>' +
-      '</ul>');
-      html.push('<p><strong>What this means:</strong> If you paid <strong>' + fmtMoney(tcp) + '</strong> for the property and successfully collected <strong>' + fmtMoney(rent) + ' in rent every single month</strong>, the property produces roughly <strong>' + grossYield.toFixed(2) + '% of its purchase price in rent each year</strong> before paying any bills, condo dues, or taxes.</p>');
-      html.push('<p>However, you cannot assume a property will stay 100% occupied year-round. Tenants move out, and finding a replacement often takes time. If the property sits empty for just one month each year, you still have to pay the full monthly mortgage payment and condo association dues yourself during that time.</p>');
-
-      // 6. HOW MUCH DO YOU ACTUALLY MAKE OR LOSE EACH MONTH?
-      var vacancyReserveMonthly = rent * 0.08; // 1 month vacant per year
-      var actualTakeHome = rent - monthlyPI - (monthlyMRI + monthlyFire) - hoaMonthly - vacancyReserveMonthly;
-
-      html.push('<div class="plain-section-header">📊 HOW MUCH MONEY DO YOU ACTUALLY MAKE OR LOSE EACH MONTH?</div>');
-      html.push('<p>Here is what happens to your cash every month after accounting for bills and a realistic vacancy allowance (assuming the unit is empty for roughly one month per year):</p>');
-      html.push('<table class="plain-table">' +
-        '<tr><th>Cash Inflow &amp; Outflow</th><th class="num">Monthly Amount</th></tr>' +
-        '<tr><td>Rent collected from tenant</td><td class="num">+' + fmtMoney(rent) + '</td></tr>' +
-        (financing !== 'cash' ? '<tr><td>Minus monthly mortgage payment</td><td class="num">-' + fmtMoney(monthlyPI) + '</td></tr>' : '') +
-        (financing !== 'cash' ? '<tr><td>Minus required fire and life insurance</td><td class="num">-' + fmtMoney(monthlyMRI + monthlyFire) + '</td></tr>' : '') +
-        '<tr><td>Minus monthly HOA / condo association dues</td><td class="num">-' + fmtMoney(hoaMonthly) + '</td></tr>' +
-        '<tr><td>Minus allowance for future empty months (vacancy buffer)</td><td class="num">-' + fmtMoney(vacancyReserveMonthly) + '</td></tr>' +
-        '<tr style="background:var(--warm-white);"><td><strong>Estimated Real Net Cash Result</strong></td><td class="num"><strong>' + (actualTakeHome >= 0 ? '+' : '') + fmtMoney(actualTakeHome) + '</strong></td></tr>' +
-      '</table>');
-
-      if (actualTakeHome >= 0) {
-        html.push('<p><strong>In plain English:</strong> After setting aside money for bills and future empty months, you would <strong>make approximately ' + fmtMoney(actualTakeHome) + ' in clear profit each month</strong>.</p>');
-      } else {
-        html.push('<p><strong>In plain English:</strong> After accounting for all expenses and future tenant turnover, you will <strong>need to add approximately ' + fmtMoney(Math.abs(actualTakeHome)) + ' of your own money each month</strong> to keep the property afloat. The rent does not cover everything.</p>');
-      }
-    }
-
-    // 7. BUYING VS. RENTING
-    var marketRentComp = (tcp * 0.05) / 12;
-    html.push('<div class="plain-section-header">⚖️ WOULD YOU BE BETTER OFF BUYING OR CONTINUING TO RENT?</div>');
-    html.push('<p>If you chose to rent a similar property instead of buying this one:</p>');
-    html.push('<ul class="plain-bullets">' +
-      '<li>Renting an equivalent home would cost approximately <strong>' + fmtMoney(marketRentComp) + ' per month</strong>.</li>' +
-      '<li>Buying this property requires <strong>' + fmtMoney(buyerClosingCash) + ' in cash upfront</strong>, plus a monthly payment of <strong>' + fmtMoney(trueMonthlyDebt + hoaMonthly) + '</strong>.</li>' +
-      '<li>When you rent, that upfront cash stays in your savings or investments, but you do not build any ownership in the property.</li>' +
-      '<li>When you buy, part of each monthly payment slowly pays down your loan balance, building your personal ownership over time.</li>' +
-    '</ul>');
-    html.push('<p><strong>In plain English:</strong> Based on historical market growth and loan costs, buying and renting become financially similar around <strong>Year 7 to 9</strong>. This is an estimate, not a guarantee. It changes if market rent, property values, or bank interest rates rise or fall.</p>');
-
-    // 8. HOW LONG CAN YOU SURVIVE WITHOUT A TENANT?
-    if (rent > 0) {
-      var noTenantCost = trueMonthlyDebt + hoaMonthly;
-      html.push('<div class="plain-section-header">⏳ IF NOBODY RENTS THIS PROPERTY, HOW MUCH DO YOU PAY?</div>');
-      html.push('<p>If your tenant moves out and the property sits completely empty, there is no rent coming in to help pay the bills:</p>');
-      html.push('<ul class="plain-bullets">' +
-        '<li>Without rental income, you must pay approximately <strong>' + fmtMoney(noTenantCost) + ' per month directly from your own pocket</strong> to cover the loan and condo dues.</li>' +
-        '<li>To survive <strong>6 months without a tenant</strong>, you would need an emergency cash buffer of roughly <strong>' + fmtMoney(noTenantCost * 6) + '</strong> set aside in savings.</li>' +
-      '</ul>');
-      html.push('<p><strong>Why this matters:</strong> This is the cash safety net you should maintain so that unexpected vacancies do not force you to default on your bank mortgage.</p>');
-    }
-
-    // 9. TOTAL COST OF OWNING THE PROPERTY
-    html.push('<div class="plain-section-header">📈 HOW MUCH WILL THIS PROPERTY ACTUALLY COST OVER ' + evalHorizon + ' YEARS?</div>');
-    html.push('<p>Over your planned ' + evalHorizon + '-year holding period, your total cumulative cash outlay (down payment + closing taxes + monthly mortgage payments + monthly condo dues) totals roughly <strong>' + fmtMoney(totalTCO) + '</strong>.</p>');
-    html.push('<p><strong>Important distinction:</strong> Not all of this money is an expense. While interest, taxes, and condo dues are pure costs, a substantial portion of your mortgage payments goes toward paying down the loan balance and converting into your own equity in the property.</p>');
-
-    // 10. WHAT IF INTEREST RATES GO UP?
-    if (financing !== 'cash') {
-      var shift1PI = calcPMT(intRate + 1, termYears, loanAmount);
-      var shift1Diff = shift1PI - monthlyPI;
-      var shift2PI = calcPMT(intRate + 2, termYears, loanAmount);
-      var shift2Diff = shift2PI - monthlyPI;
-
-      html.push('<div class="plain-section-header">🏷️ WHAT IF INTEREST RATES GO UP?</div>');
-      html.push('<p>Philippine bank housing loans typically lock in your interest rate for only 1 to 5 years. When that fixed period ends, the bank will reprice your loan according to prevailing market rates:</p>');
-      html.push('<ul class="plain-bullets">' +
-        '<li>If your interest rate increases by <strong>1 percentage point</strong> (from ' + intRate.toFixed(2) + '% to ' + (intRate + 1).toFixed(2) + '%), your estimated monthly payment increases from ' + fmtMoney(monthlyPI) + ' to <strong>' + fmtMoney(shift1PI) + '</strong>. That means you would need an extra <strong>' + fmtMoney(shift1Diff) + ' every month</strong>.</li>' +
-        '<li>If interest rates jump by <strong>2 percentage points</strong>, your monthly payment rises to <strong>' + fmtMoney(shift2PI) + '</strong> (an extra <strong>' + fmtMoney(shift2Diff) + ' each month</strong>).</li>' +
-      '</ul>');
-      html.push('<p><strong>In plain English:</strong> Make sure you could still afford the monthly payments if interest rates rise in the future.</p>');
-    }
-
-    // 11. WHAT HAPPENS WHEN YOU SELL (OR KEEP FOREVER)
-    if (exitStrategy === 'no_exit') {
-      html.push('<div class="plain-section-header">🏛️ IF YOU KEEP THE PROPERTY FOREVER</div>');
-      html.push('<p>You indicated you have no plans to sell this property. Here is what that means:</p>');
-      html.push('<ul class="plain-bullets">' +
-        '<li>Your mortgage is scheduled to be completely paid off after <strong>' + termYears + ' years</strong>.</li>' +
-        '<li>Once the loan is fully paid, you will <strong>no longer have a monthly mortgage payment</strong>.</li>' +
-        '<li>If the property is rented out, almost all the rent you collect will remain yours as net profit, minus only condo maintenance dues. You will also completely avoid paying broker commissions or selling taxes.</li>' +
-      '</ul>');
-    } else {
-      html.push('<div class="plain-section-header">🤝 IF YOU SELL AFTER ' + holdingYrs + ' YEARS</div>');
-      html.push('<p>If property values grow at an average of ' + (appreciationRate * 100).toFixed(1) + '% per year, here is roughly what would happen if you sell in Year ' + holdingYrs + ':</p>');
-      html.push('<table class="plain-table">' +
-        '<tr><th>Resale Step</th><th class="num">Amount</th></tr>' +
-        '<tr><td>Estimated Selling Price in Year ' + holdingYrs + '</td><td class="num">' + fmtMoney(projectedResalePrice) + '</td></tr>' +
-        '<tr><td>Minus Selling Costs (6% Capital Gains Tax + 5% Broker Fee)</td><td class="num">-' + fmtMoney(exitSellingFriction) + '</td></tr>' +
-        '<tr><td>Minus Remaining Loan Balance Paid Back to the Bank</td><td class="num">-' + fmtMoney(loanPayoffAtExit) + '</td></tr>' +
-        '<tr style="background:var(--warm-white);"><td><strong>Estimated Cash Left in Your Pocket</strong></td><td class="num"><strong>' + fmtMoney(netExitProceeds) + '</strong></td></tr>' +
-      '</table>');
-      html.push('<p><strong>In plain English:</strong> After selling the property, paying all government sales taxes and agent fees, and paying off the bank, you would walk away with roughly <strong>' + fmtMoney(netExitProceeds) + ' in cash</strong>.</p>');
-    }
-
-    // 12. SELECTED TOPICS FROM CHECKLIST (PLAIN-ENGLISH TRANSLATIONS)
-    if (activeSet['achievable_rent']) {
-      html.push('<p><strong>Realistic Achievable Rent:</strong> Advertised online listings often ask for higher prices than tenants actually pay. In major Philippine business districts, signed leases typically settle between <strong>₱600 to ₱950 per square meter</strong> for condos. Always verify actual signed rental contracts in your specific building before relying on broker estimates.</p>');
-    }
-    if (activeSet['downside_pivot']) {
-      html.push('<p><strong>Alternative Uses / Downside Protection:</strong> If you cannot find a long-term tenant, check whether the condominium or subdivision rules allow short-term daily rentals (like Airbnb) or if the layout is suitable for you or a family member to live in. Having a backup plan protects you if the rental market slows down.</p>');
-    }
-    if (activeSet['real_return']) {
-      var realYield = Math.max(0, grossYield - 3.5);
-      html.push('<p><strong>Inflation-Adjusted (Real) Return:</strong> Over time, the cost of goods and services in the Philippines increases (historically around 3.5% per year). If your rental return is ' + grossYield.toFixed(2) + '%, your actual return above inflation is roughly <strong>' + realYield.toFixed(2) + '% per year</strong>. This tells you if your real purchasing power is truly expanding.</p>');
-    }
-
-    // 13. RISKS / THINGS THAT COULD GO WRONG
-    html.push('<div class="plain-section-header">⚠️ THINGS THAT COULD GO WRONG (RISKS TO WATCH)</div>');
-    html.push('<ul class="plain-bullets">');
-    if (rent > 0) {
-      html.push('<li><strong>The property stays empty:</strong> If a tenant moves out and it takes 3 to 6 months to find a new one, you must pay the loan and condo dues entirely on your own.</li>');
-      html.push('<li><strong>Rent is lower than expected:</strong> If you have to lower your rent to find a tenant, your monthly cash shortfall will grow.</li>');
-    }
-    if (financing !== 'cash') {
-      html.push('<li><strong>Interest rates rise:</strong> When your initial fixed rate period expires, your monthly bank payment could jump significantly.</li>');
-      if (income > 0) {
-        html.push('<li><strong>Your income drops:</strong> If your household earnings decrease, your debt payments will take up an uncomfortably large share of your income.</li>');
-      }
-    }
-    html.push('<li><strong>Property values do not increase:</strong> You cannot guarantee that the property will appreciate in value as fast as historical averages.</li>');
-    html.push('<li><strong>Unexpected repairs:</strong> You will periodically need to spend cash on aircon repairs, repainting, and fixing water leaks.</li>');
-    if (assetKind === 'condo') {
-      html.push('<li><strong>Building rental restrictions:</strong> Some condominium boards ban short-term stays (Airbnb), limiting your ability to pivot if long-term corporate tenants are scarce.</li>');
-    }
-    html.push('</ul>');
-
-    // 14. IMPORTANT ASSUMPTIONS
-    html.push('<div class="plain-section-header">📋 IMPORTANT ASSUMPTIONS USED</div>');
-    html.push('<p>These calculations are estimates based on the following specific assumptions. If any of these numbers change, your actual financial result will change as well:</p>');
-    html.push('<ul class="plain-bullets">' +
-      '<li>Purchase Price: <strong>' + fmtMoney(tcp) + '</strong></li>' +
-      (financing !== 'cash' ? '<li>Bank Loan Interest Rate: <strong>' + intRate.toFixed(2) + '% per year</strong></li>' : '<li>Payment: <strong>100% Outright Cash</strong></li>') +
-      (financing !== 'cash' ? '<li>Loan Term: <strong>' + termYears + ' years</strong></li>' : '') +
-      '<li>Expected Rent: <strong>' + (rent > 0 ? fmtMoney(rent) + ' per month' : 'None modeled') + '</strong></li>' +
-      '<li>Monthly Condo/HOA Dues: <strong>' + fmtMoney(hoaMonthly) + ' per month</strong></li>' +
-      (exitStrategy !== 'no_exit' ? '<li>Annual Value Growth: <strong>' + (appreciationRate * 100).toFixed(1) + '% per year</strong></li>' : '<li>Exit Strategy: <strong>Keep forever (no sale)</strong></li>') +
-      '<li>Other Monthly Debts: <strong>' + fmtMoney(existingDebt) + ' per month</strong></li>' +
-    '</ul>');
-
-    // 15. FINAL 5-QUESTION SUMMARY
-    html.push('<div class="plain-section-header">🎯 FINAL SUMMARY</div>');
-    html.push('<p><strong>💰 How much cash do I need upfront?</strong><br>' +
-      '<span style="font-family:\'Fraunces\',serif; font-size:1.25rem; color:var(--navy); font-weight:700;">' + fmtMoney(buyerClosingCash) + '</span> (Down payment + all legal transfer taxes and fees)</p>');
-
-    html.push('<p><strong>🏦 How much will I owe every month?</strong><br>' +
-      '<span style="font-family:\'Fraunces\',serif; font-size:1.25rem; color:var(--navy); font-weight:700;">' + (financing === 'cash' ? fmtMoney(hoaMonthly) + ' (Condo Dues only)' : fmtMoney(trueMonthlyDebt + hoaMonthly) + ' (Loan + Insurance + Condo Dues)') + '</span></p>');
-
-    html.push('<p><strong>🏠 How much rent can I realistically expect?</strong><br>' +
-      '<span style="font-family:\'Fraunces\',serif; font-size:1.25rem; color:var(--navy); font-weight:700;">' + (rent > 0 ? fmtMoney(rent) + ' / month' : '₱0 (Personal / Family Use)') + '</span></p>');
-
-    var coversAnswer = 'Not applicable (Property evaluated for personal use)';
-    if (rent > 0) {
-      if (rent >= (trueMonthlyDebt + hoaMonthly)) {
-        coversAnswer = '<span style="color:var(--accent-ok); font-weight:700;">Yes</span> — The rent is higher than your monthly property bills.';
-      } else {
-        coversAnswer = '<span style="color:var(--accent-warn); font-weight:700;">No (Partially)</span> — The rent covers part of the cost, but you will need to add about ' + fmtMoney(Math.abs(rent - (trueMonthlyDebt + hoaMonthly))) + ' out-of-pocket every month.';
-      }
-    }
-    html.push('<p><strong>📉 Will the rent cover the property\'s costs?</strong><br>' +
-      '<span style="font-size:1.05rem;">' + coversAnswer + '</span></p>');
-
-    html.push('<p><strong>⚠️ What should I be most aware of?</strong></p>');
-    html.push('<ul class="plain-bullets">' +
-      '<li>You must have at least <strong>' + fmtMoney(buyerClosingCash) + ' in clear cash ready</strong> on day one to cover down payments and mandatory Philippine deed taxes.</li>' +
-      (financing !== 'cash' ? '<li>Your monthly loan payment is <strong>' + fmtMoney(trueMonthlyDebt) + '</strong>, and you are obligated to pay it whether you have a tenant or the unit sits empty.</li>' : '<li>You are buying in cash, which avoids all bank interest charges and eliminates debt foreclosure risk.</li>') +
-      (rent > 0 && (rent < (trueMonthlyDebt + hoaMonthly)) ? '<li>This property operates at a monthly cash deficit; you cannot rely on rent alone to pay the bank.</li>' : '') +
-      '<li>Real estate is illiquid—if you suddenly need cash, selling a property in the Philippines typically takes 4 to 6 months.</li>' +
-    '</ul>');
-
-    document.getElementById('aiConversationalLead').innerHTML = html.join('');
+    activeSlideIndex = 0;
+    document.getElementById('cBtnPrev').disabled = true;
+    document.getElementById('cBtnNext').disabled = false;
+    document.getElementById('carouselStatus').textContent = 'Slide 1 of ' + totalSlidesCount;
   }
 
   updateProgress();
